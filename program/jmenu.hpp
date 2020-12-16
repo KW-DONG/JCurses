@@ -1,0 +1,88 @@
+#ifndef __JMENU_HPP
+#define __JMENU_HPP
+#include <menu.h>
+#include "jwindow.hpp"
+
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+#define MIDDLE_WIN_X(x,w) (x+w/2)
+
+typedef int32_t (*Item_Sel_Callback)(void);
+
+typedef struct menuList
+{
+    JMenu mJmenu;
+    struct menuList* next;
+}menuList_t;
+
+class JMenu : public JWindow
+{
+public:
+
+    JMenu(int32_t startX, int32_t startY, uint32_t height, uint32_t width, const char* title):
+    JWindow(startX,startY,height,width,title),mItemList(NULL),mLastMenu(NULL){}
+
+    ~JMenu()
+    {
+        Close();
+        endwin();
+    }
+
+    void Display(void) override;
+
+    void Close(void) override;
+
+    virtual void Add_Items(JItem* itemList)
+    {
+        mItemList = itemList;
+    }
+
+    void Add_Last(JMenu* lastMenu)
+    {
+        mLastMenu = lastMenu;
+    }
+
+protected:
+
+    void Create_Menu(void);
+
+private:
+    
+    WINDOW*     mMenuWindow;        /*the window that associate the menu*/
+
+    MENU*       mMenu;              /*the menu list*/
+
+    ITEM**      mItems;             /*item list used to allocate memory*/
+
+    JItem*      mItemList;
+    
+    uint32_t    mItemNum;
+
+    JMenu*      mLastMenu;
+
+};
+
+class JItem : public JWidget
+{
+public:
+    JItem(const char*title):JWidget(title){}
+
+    ~JItem();
+
+    void Set_Event(Item_Sel_Callback func, event_feedback_t* messageList)
+    {
+        mMessageList = messageList;
+    }
+
+    const char* Selected(void)
+    {
+        return Get_Feedback(itemEvent(),mMessageList);
+    }
+
+private:
+    int32_t (*itemEvent)(void);      /*write an event here*/
+
+    event_feedback_t* mMessageList;
+};
+
+#endif
+
