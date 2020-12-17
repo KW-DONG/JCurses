@@ -1,0 +1,64 @@
+{
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "C/C++: g++ build active file",
+            "command": "/usr/bin/g++",
+            "args": [
+                "-g",
+                "${workspaceFolder}/program/demo/FieldOptions.cpp",
+                //"${workspaceFolder}/program/demo/BasicForm.cpp",
+                //"${workspaceFolder}/program/demo/FormWindow.cpp",
+                //"${workspaceFolder}/program/demo/ScrollingMenus.cpp",
+                //"${workspaceFolder}/program/demo/MenuUserPointer.cpp",
+                //"${workspaceFolder}/program/interface.cpp",
+                //"${workspaceFolder}/program/test.cpp",
+                //"${workspaceFolder}/program/camera.cpp",
+                "-o",
+                "${workspaceFolder}/build/FieldOptions",
+                //"${workspaceFolder}/build/BasicForm",
+                //"${workspaceFolder}/build/FormWindow",
+                //"${workspaceFolder}/build/ScrollingMenus",
+                //"${workspaceFolder}/build/MenuUserPointer",
+                //"${workspaceFolder}/build/interface",
+                //"${workspaceFolder}/build/camera",
+                "`pkg-config", "--cflags", "--libs", "opencv`",
+                "-I", "/usr/include",
+                "-I", "/usr/local/include",
+                "-I", "/usr/local/include/opencv4",
+                "-I", "/usr/local/include/opencv4/opencv2",
+                "-I", "${workspaceFolder}/program",
+                "-I", "${workspaceFolder}/program/inc",
+                "-L", "/usr/local/lib",
+                "-L", "/usr/lib",
+                "-l", "opencv_core",
+                "-l", "opencv_imgproc",
+                "-l", "opencv_imgcodecs",
+                "-l", "opencv_video",
+                "-l", "opencv_ml",
+                "-l", "opencv_highgui",
+                "-l", "opencv_objdetect",
+                "-l", "opencv_flann",
+                "-l", "opencv_photo",
+                "-l", "opencv_videoio",
+                "-l", "gxiapi",
+                "-l", "curses",
+                "-l", "menu",
+                "-l", "panel",
+                "-l", "form"
+            ],
+            "options": {
+                "cwd": "/usr/bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Generated task by Debugger"
+        }
+    ],
+    "version": "2.0.0"
+}

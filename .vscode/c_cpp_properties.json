@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "name": "MinGW64",
+            "intelliSenseMode": "gcc-x64",
+            "includePath": [
+                "${workspaceFolder}",
+                "${workspaceFolder}/program",
+                "${workspaceFolder}/lib/JCamera/JDHeng",
+                "${workspaceFolder}/lib/JCurses",
+                "${workspaceFolder}/program/gui",
+                "/usr/local/include/",
+				"/usr/local/include/opencv4",
+				"/usr/local/include/opencv4/opencv2"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++14"
+        }
+    ],
+    "version": 4
+}
