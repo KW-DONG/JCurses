@@ -33,9 +33,9 @@ public:
         Close();
     }
 
-    virtual void Display();
+    virtual void Display(){}
 
-    virtual void Close();
+    virtual void Close(){}
 
     int32_t Get_X(void) {return x;}
 
@@ -89,7 +89,7 @@ class JWidget
 {
 public:
     JWidget(const char* title):mTitle(title),mWidth(sizeof(title)){};
-    ~JWidget();
+    ~JWidget(){}
 
     const char* Get_Title(void)
     {

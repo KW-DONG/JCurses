@@ -8,6 +8,46 @@ typedef int32_t (*Field_Pull_Callback)(char*);
 
 typedef int32_t (*Field_Push_Callback)(const char*);
 
+class JField : public JWidget
+{
+public:
+    JField(const char* title):
+    JWidget(title),mPull(NULL),mPush(NULL),pushMessageList(NULL),pullMessageList(NULL){}
+
+    ~JField(){}
+
+    void Set_Push(Field_Push_Callback pushCallback, event_feedback_t* messageList)
+    {
+        mPush = pushCallback;
+    }
+
+    void Set_Pull(Field_Pull_Callback pullCallback, event_feedback_t* messageList)
+    {
+        mPull = pullCallback;
+    }
+
+    const char* Pull(char* var)
+    {
+        return Get_Feedback(mPull(var),pullMessageList);
+    }
+
+    const char* Push(const char* var)
+    {
+        return Get_Feedback(mPush(var),pushMessageList);
+    }
+
+private:
+
+    int32_t (*mPush)(const char*);
+
+    int32_t (*mPull)(char*);
+
+    event_feedback_t* pushMessageList;
+
+    event_feedback_t* pullMessageList;
+
+};
+
 /**
  * +-----------------------+
  * |         Title         |
@@ -29,7 +69,7 @@ public:
     JForm(int32_t startX, int32_t startY, uint32_t height, uint32_t width, const char* title):
     JWindow(startX,startY,height,width,title){}
 
-    ~JForm();
+    ~JForm(){}
 
     void Display(void) override;
 
@@ -69,45 +109,7 @@ private:
     int32_t selected;
 };
 
-class JField : public JWidget
-{
-public:
-    JField(const char* title):
-    JWidget(title){}
 
-    ~JField();
-
-    void Set_Push(Field_Push_Callback pushCallback, event_feedback_t* messageList)
-    {
-        mPush = pushCallback;
-    }
-
-    void Set_Pull(Field_Pull_Callback pullCallback, event_feedback_t* messageList)
-    {
-        mPull = pullCallback;
-    }
-
-    const char* Pull(char* var)
-    {
-        return Get_Feedback(mPull(var),pullMessageList);
-    }
-
-    const char* Push(const char* var)
-    {
-        return Get_Feedback(mPush(var),pushMessageList);
-    }
-
-private:
-
-    int32_t (*mPush)(const char*);
-
-    int32_t (*mPull)(char*);
-
-    event_feedback_t* pushMessageList;
-
-    event_feedback_t* pullMessageList;
-
-};
 
 
 #endif

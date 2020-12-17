@@ -8,18 +8,37 @@
 
 typedef int32_t (*Item_Sel_Callback)(void);
 
-typedef struct menuList
+class JItem : public JWidget
 {
-    JMenu mJmenu;
-    struct menuList* next;
-}menuList_t;
+public:
+    JItem(const char*title):JWidget(title),itemEvent(NULL),mMessageList(NULL){}
+
+    ~JItem(){}
+
+    void Set_Event(Item_Sel_Callback func, event_feedback_t* messageList)
+    {
+        mMessageList = messageList;
+    }
+
+    const char* Selected(void)
+    {
+        return Get_Feedback(itemEvent(),mMessageList);
+    }
+
+private:
+    int32_t (*itemEvent)(void);      /*write an event here*/
+
+    event_feedback_t* mMessageList;
+};
+
+
 
 class JMenu : public JWindow
 {
 public:
 
     JMenu(int32_t startX, int32_t startY, uint32_t height, uint32_t width, const char* title):
-    JWindow(startX,startY,height,width,title),mItemList(NULL),mLastMenu(NULL){}
+    JWindow(startX,startY,height,width,title),mItemList(NULL),mLastMenu(NULL),mItemNum(0){}
 
     ~JMenu()
     {
@@ -34,6 +53,7 @@ public:
     virtual void Add_Items(JItem* itemList)
     {
         mItemList = itemList;
+        mItemNum = sizeof(itemList)-2;
     }
 
     void Add_Last(JMenu* lastMenu)
@@ -55,34 +75,13 @@ private:
 
     JItem*      mItemList;
     
-    uint32_t    mItemNum;
+    int32_t    mItemNum;
 
     JMenu*      mLastMenu;
 
 };
 
-class JItem : public JWidget
-{
-public:
-    JItem(const char*title):JWidget(title){}
 
-    ~JItem();
-
-    void Set_Event(Item_Sel_Callback func, event_feedback_t* messageList)
-    {
-        mMessageList = messageList;
-    }
-
-    const char* Selected(void)
-    {
-        return Get_Feedback(itemEvent(),mMessageList);
-    }
-
-private:
-    int32_t (*itemEvent)(void);      /*write an event here*/
-
-    event_feedback_t* mMessageList;
-};
 
 #endif
 

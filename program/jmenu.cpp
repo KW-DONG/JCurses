@@ -4,7 +4,7 @@
 void JMenu::Create_Menu(void)
 {
 
-    mItems = new ITEM* [mItemNum];
+    mItems = (ITEM**)new ITEM* [mItemNum];
     
     for(int i = 0; i < mItemNum; ++i)
     {
@@ -12,6 +12,8 @@ void JMenu::Create_Menu(void)
 
         //set_item_userptr(mItems[i],(void*)(mItemList[i].Selected()));
     }
+
+    mItems[mItemNum] = new_item((char*)NULL,(char*)NULL);
 
     mMenu = new_menu((ITEM**)mItems);
 

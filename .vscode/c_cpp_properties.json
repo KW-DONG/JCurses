@@ -6,12 +6,7 @@
             "includePath": [
                 "${workspaceFolder}",
                 "${workspaceFolder}/program",
-                "${workspaceFolder}/lib/JCamera/JDHeng",
-                "${workspaceFolder}/lib/JCurses",
-                "${workspaceFolder}/program/gui",
-                "/usr/local/include/",
-				"/usr/local/include/opencv4",
-				"/usr/local/include/opencv4/opencv2"
+                "/usr/local/include/"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

@@ -8,7 +8,7 @@
             "name": "g++ - Build and debug active file",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/menu",
+            "program": "${workspaceFolder}/build/ScrollingMenus",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
