@@ -31,8 +31,6 @@ private:
     event_feedback_t* mMessageList;
 };
 
-
-
 class JMenu : public JWindow
 {
 public:
@@ -40,20 +38,16 @@ public:
     JMenu(int32_t startX, int32_t startY, uint32_t height, uint32_t width, const char* title):
     JWindow(startX,startY,height,width,title),mItemList(NULL),mLastMenu(NULL),mItemNum(0){}
 
-    ~JMenu()
-    {
-        Close();
-        endwin();
-    }
+    ~JMenu(){}
 
     void Display(void) override;
 
     void Close(void) override;
 
-    virtual void Add_Items(JItem* itemList)
+    virtual void Add_Items(JItem* itemList, int32_t num)
     {
         mItemList = itemList;
-        mItemNum = sizeof(itemList)-2;
+        mItemNum = num;
     }
 
     void Add_Last(JMenu* lastMenu)

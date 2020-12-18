@@ -3,12 +3,6 @@
 #include <ncurses.h>
 
 /**
- * @brief JCurses initialization function
- * @note call it as initialization
- */
-void JInit(void);
-
-/**
  *                 w
  *      +---------------------+
  *      |        Title        |
@@ -24,13 +18,16 @@ class JWindow
 {
 public:
     JWindow(int32_t startX, int32_t startY, int32_t height, int32_t width, const char* title):
-    x(startX),y(startY),h(height),w(width),mTitle(title){}
+    x(startX),y(startY),h(height),w(width),mTitle(title)
+    {
+        mBaseWindow = newwin(h,w,y,x);
+    }
     ~JWindow()
     {
         wborder(mBaseWindow, ' ', ' ', ' ',' ',' ',' ',' ',' ');
         wrefresh(mBaseWindow);
         delwin(mBaseWindow);
-        Close();
+        endwin();
     }
 
     virtual void Display(){}
@@ -49,7 +46,7 @@ public:
 
     void Print(const char* content)
     {
-        mvprintw(0,0,content);
+        mvprintw(LINES - 2,0,content);
     }
 
 protected:
@@ -108,5 +105,10 @@ private:
     const int32_t mWidth;
 };
 
+/**
+ * @brief JCurses initialization function
+ * @note call it as initialization
+ */
+void JInit(void);
 
 #endif

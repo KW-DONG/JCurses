@@ -5,7 +5,7 @@
 void JInit()
 {
     initscr();
-    start_color();
+    //start_color();
     curs_set(0);
     cbreak();
     noecho();
@@ -39,6 +39,8 @@ void JWindow::Show(void)
 
 const char* JWidget::Get_Feedback(int32_t feedback, event_feedback_t* messageList)
 {
+    static const char noFeedback[] = "no feedback";
+
     int32_t messageNum = sizeof(messageList);
 
     for (int32_t i = 0; i < messageNum; i++)
@@ -48,4 +50,5 @@ const char* JWidget::Get_Feedback(int32_t feedback, event_feedback_t* messageLis
             return messageList[i].message;
         }
     }
+    return noFeedback;
 }

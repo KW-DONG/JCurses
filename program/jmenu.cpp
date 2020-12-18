@@ -1,19 +1,21 @@
 #include "jmenu.hpp"
+#include <stdlib.h>
 //#include <cstring>
 
 void JMenu::Create_Menu(void)
 {
-
+    //mItems = (ITEM **)calloc(mItemNum,sizeof(ITEM *));
+    
     mItems = (ITEM**)new ITEM* [mItemNum];
     
     for(int i = 0; i < mItemNum; ++i)
     {
-        mItems[i] = new_item(mItemList[i].Get_Title()," ");
+        mItems[i] = new_item(mItemList[i].Get_Title(),mItemList[i].Get_Title());
 
         //set_item_userptr(mItems[i],(void*)(mItemList[i].Selected()));
     }
 
-    mItems[mItemNum] = new_item((char*)NULL,(char*)NULL);
+    //mItems[mItemNum] = new_item((char*)NULL,(char*)NULL);
 
     mMenu = new_menu((ITEM**)mItems);
 
@@ -25,24 +27,26 @@ void JMenu::Create_Menu(void)
 
     set_menu_mark(mMenu,"->");
 
-    post_menu(mMenu);
-
 }
 
 void JMenu::Display(void)
 {
     int c;
 
+    int32_t i = 0;
+
     this->Create_Menu();
 
-    int32_t i = 0;
+    Show();
+
+    refresh();
+
+    post_menu(mMenu);
+
+    wrefresh(mMenuWindow);
 
     while((c = wgetch(Get_Base_Window())) != KEY_F(1))
     {
-        wrefresh(Get_Base_Window());
-
-        refresh();
-        
         switch (c)
         {
         case KEY_DOWN:
@@ -87,20 +91,22 @@ void JMenu::Display(void)
             }
             break;
         }
+        wrefresh(mMenuWindow);
     }
+    Close();
 }
 
 void JMenu::Close(void)
 {
     unpost_menu(mMenu);
     free_menu(mMenu);
-    for (uint8_t i = 0; i < mItemNum; i++)
+    for (int32_t i = 0; i < mItemNum; ++i)
     {
        free_item(mItems[i]); 
     }
     delete[] mItems;
+    //free(mItems);
     mItems = NULL;
-    endwin();
 }
 
 

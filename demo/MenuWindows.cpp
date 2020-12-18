@@ -66,22 +66,25 @@ int main()
     while((c = wgetch(my_menu_win)) != KEY_F(1))
     { 
         switch(c)
-{ case KEY_DOWN:
-menu_driver(my_menu, REQ_DOWN_ITEM);
-break;
-case KEY_UP:
-menu_driver(my_menu, REQ_UP_ITEM);
-break;
+        { 
+            case KEY_DOWN:
+                menu_driver(my_menu, REQ_DOWN_ITEM);
+            break;
+            case KEY_UP:
+                menu_driver(my_menu, REQ_UP_ITEM);
+            break;
+        }
+        wrefresh(my_menu_win);
+    }
+
+    /* Unpost and free all the memory taken up */
+    unpost_menu(my_menu);
+    free_menu(my_menu);
+    for(i = 0; i < n_choices; ++i)
+    free_item(my_items[i]);
+    endwin();
 }
-wrefresh(my_menu_win);
-}
-/* Unpost and free all the memory taken up */
-unpost_menu(my_menu);
-free_menu(my_menu);
-for(i = 0; i < n_choices; ++i)
-free_item(my_items[i]);
-endwin();
-}
+
 void print_in_middle(WINDOW *win, int starty, int startx, int width, char *string, chtype color)
 {   
     int length, x, y;

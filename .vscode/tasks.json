@@ -6,14 +6,14 @@
             "command": "/usr/bin/g++",
             "args": [
                 "-g",
-                "${workspaceFolder}/demo/ScrollingMenus.cpp",
-                //"${workspaceFolder}/test/test1.cpp",
+                //"${workspaceFolder}/demo/ScrollingMenus.cpp",
+                "${workspaceFolder}/test/test1.cpp",
                 "${workspaceFolder}/program/jform.cpp",
                 "${workspaceFolder}/program/jmenu.cpp",
                 "${workspaceFolder}/program/jwindow.cpp",
                 "-o",
-                "${workspaceFolder}/build/ScrollingMenus"
-                //"${workspaceFolder}/build/test1",
+                //"${workspaceFolder}/build/ScrollingMenus",
+                "${workspaceFolder}/build/test1",
                 //"`pkg-config", "--cflags", "--libs", "opencv`",
                 "-I", "/usr/include",
                 "-I", "/usr/local/include",

@@ -2,6 +2,8 @@
 
 int main()
 {
+    JInit();
+
     //create objects
     JMenu baseMenu(10,5,10,40,"main");
 
@@ -24,7 +26,7 @@ int main()
 
     JItem baseMenuList[] = {item1,item2,item3,item4,item5,item6,(JItem)NULL};
 
-    baseMenu.Add_Items(baseMenuList);
+    baseMenu.Add_Items(baseMenuList,ARRAY_SIZE(baseMenuList));
 
     baseMenu.Display();
 
