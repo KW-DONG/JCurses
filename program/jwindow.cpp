@@ -18,20 +18,24 @@ void JWindow::Show(void)
     int length = strlen(mTitle);
     float temp = (w - length)/ 2;
 
-    mvwprintw(mBaseWindow, y, x+(int)temp, "%s", mTitle);
+    //mvprintw(y,x+(int)temp,"%s",mTitle);
 
-    mvwaddch(mBaseWindow, 2, 0, ACS_LTEE);
+    //mvwaddch(mBaseWindow, 2, 0, ACS_LTEE);
 
-    mvwhline(mBaseWindow, 2, 1, ACS_HLINE, w - 2);
+    //mvwhline(mBaseWindow, 2, 1, ACS_HLINE, w - 2);
 
-    mvwaddch(mBaseWindow, 2, w-1, ACS_RTEE);
+    //mvwaddch(mBaseWindow, 2, w-1, ACS_RTEE);
 
     refresh();
 
     /*create window*/
     mBaseWindow = newwin(h,w,y,x);
 
-    box(mBaseWindow, 0, 0);
+    wborder(mBaseWindow, '|', '|', '-', '-', '+', '+', '+', '+');
+
+    mvwprintw(mBaseWindow, 0, (int)temp, "[%s]", mTitle);
+
+    //box(mBaseWindow, 0, 0);
 
     keypad(mBaseWindow, TRUE);
 

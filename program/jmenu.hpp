@@ -17,12 +17,19 @@ public:
 
     void Set_Event(Item_Sel_Callback func, event_feedback_t* messageList)
     {
+        itemEvent = func;
+
         mMessageList = messageList;
     }
 
     const char* Selected(void)
     {
         return Get_Feedback(itemEvent(),mMessageList);
+    }
+
+    Item_Sel_Callback Get_Event(void)
+    {
+        return itemEvent;
     }
 
 private:

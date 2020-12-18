@@ -10,7 +10,7 @@ void JMenu::Create_Menu(void)
     
     for(int i = 0; i < mItemNum; ++i)
     {
-        mItems[i] = new_item(mItemList[i].Get_Title(),mItemList[i].Get_Title());
+        mItems[i] = new_item(mItemList[i].Get_Title()," ");
 
         //set_item_userptr(mItems[i],(void*)(mItemList[i].Selected()));
     }
@@ -19,11 +19,17 @@ void JMenu::Create_Menu(void)
 
     mMenu = new_menu((ITEM**)mItems);
 
-    mMenuWindow = derwin(Get_Base_Window(),Get_H()-4,Get_W()-2,3,2);
+    
+
+    int32_t menuStartX = Get_W()/3;
+
+    int32_t menuWinWidth = Get_W() - menuStartX - 3;
+
+    mMenuWindow = derwin(Get_Base_Window(),Get_H()-3,menuWinWidth,2,menuStartX);
 
     set_menu_sub(mMenu, mMenuWindow);
 
-    set_menu_format(mMenu,Get_H()-5,1);
+    set_menu_format(mMenu,Get_H()-4,1);
 
     set_menu_mark(mMenu,"->");
 
@@ -39,7 +45,11 @@ void JMenu::Display(void)
 
     Show();
 
+    wrefresh(Get_Base_Window());
+
     refresh();
+
+    box(mMenuWindow,0,0);
 
     post_menu(mMenu);
 
@@ -82,16 +92,17 @@ void JMenu::Display(void)
 
                 //int8_t (*p)(void);
                 cur = current_item(mMenu);       /*get curren selection*/
+                if (mItemList[cur->index].Get_Event()!= NULL)
                 Print(mItemList[cur->index].Selected());
                 
                 //p = (int8_t(*)(void))item_userptr(cur);
-          
                 pos_menu_cursor(mMenu);
                 break;
             }
             break;
         }
         wrefresh(mMenuWindow);
+        wrefresh(Get_Base_Window());
     }
     Close();
 }
