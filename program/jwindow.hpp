@@ -47,6 +47,7 @@ public:
     void Print(const char* content)
     {
         mvprintw(LINES - 2,0,content);
+        refresh();
     }
 
 protected:

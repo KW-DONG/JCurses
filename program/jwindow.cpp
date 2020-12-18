@@ -18,14 +18,6 @@ void JWindow::Show(void)
     int length = strlen(mTitle);
     float temp = (w - length)/ 2;
 
-    //mvprintw(y,x+(int)temp,"%s",mTitle);
-
-    //mvwaddch(mBaseWindow, 2, 0, ACS_LTEE);
-
-    //mvwhline(mBaseWindow, 2, 1, ACS_HLINE, w - 2);
-
-    //mvwaddch(mBaseWindow, 2, w-1, ACS_RTEE);
-
     refresh();
 
     /*create window*/

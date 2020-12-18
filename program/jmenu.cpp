@@ -19,8 +19,6 @@ void JMenu::Create_Menu(void)
 
     mMenu = new_menu((ITEM**)mItems);
 
-    
-
     int32_t menuStartX = Get_W()/3;
 
     int32_t menuWinWidth = Get_W() - menuStartX - 3;
@@ -39,8 +37,6 @@ void JMenu::Display(void)
 {
     int c;
 
-    int32_t i = 0;
-
     this->Create_Menu();
 
     Show();
@@ -49,7 +45,7 @@ void JMenu::Display(void)
 
     refresh();
 
-    box(mMenuWindow,0,0);
+    //box(mMenuWindow,0,0);
 
     post_menu(mMenu);
 
@@ -62,11 +58,9 @@ void JMenu::Display(void)
         case KEY_DOWN:
 
             menu_driver(mMenu, REQ_DOWN_ITEM);
-            if (i<mItemNum) i++;
             break;
         
         case KEY_UP:
-            if (i>0)    i--;
             menu_driver(mMenu, REQ_UP_ITEM);
             break;
 
@@ -90,12 +84,10 @@ void JMenu::Display(void)
             {
                 ITEM *cur;
 
-                //int8_t (*p)(void);
-                cur = current_item(mMenu);       /*get curren selection*/
+                cur = current_item(mMenu);
                 if (mItemList[cur->index].Get_Event()!= NULL)
                 Print(mItemList[cur->index].Selected());
-                
-                //p = (int8_t(*)(void))item_userptr(cur);
+
                 pos_menu_cursor(mMenu);
                 break;
             }
@@ -116,7 +108,7 @@ void JMenu::Close(void)
        free_item(mItems[i]); 
     }
     delete[] mItems;
-    //free(mItems);
+
     mItems = NULL;
 }
 

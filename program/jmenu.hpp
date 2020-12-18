@@ -24,7 +24,15 @@ public:
 
     const char* Selected(void)
     {
-        return Get_Feedback(itemEvent(),mMessageList);
+        if (mMessageList!=NULL)
+        {
+           return Get_Feedback(itemEvent(),mMessageList); 
+        }
+        else
+        {
+            itemEvent();
+            return "0";
+        }
     }
 
     Item_Sel_Callback Get_Event(void)
