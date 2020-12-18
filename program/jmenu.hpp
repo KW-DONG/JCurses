@@ -6,7 +6,9 @@
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 #define MIDDLE_WIN_X(x,w) (x+w/2)
 
-typedef int32_t (*Item_Sel_Callback)(void);
+typedef int32_t (*Item_Sel_Callback)(JMenu* thisMenu);
+
+void Switch_Menu(JMenu* current, JMenu* next);
 
 class JItem : public JWidget
 {
@@ -22,15 +24,15 @@ public:
         mMessageList = messageList;
     }
 
-    const char* Selected(void)
+    const char* Selected(JMenu* thisMenu)
     {
         if (mMessageList!=NULL)
         {
-           return Get_Feedback(itemEvent(),mMessageList); 
+           return Get_Feedback(itemEvent(thisMenu),mMessageList); 
         }
         else
         {
-            itemEvent();
+            itemEvent(thisMenu);
             return "Selected";
         }
     }
@@ -41,7 +43,7 @@ public:
     }
 
 private:
-    int32_t (*itemEvent)(void);      /*write an event here*/
+    int32_t (*itemEvent)(JMenu*);      /*write an event here*/
 
     event_feedback_t* mMessageList;
 };
@@ -70,13 +72,13 @@ public:
 
     void Close(void) override;
 
-    virtual void Add_Items(JItem* itemList, int32_t num)
+    virtual void Set_Items(JItem* itemList, int32_t num)
     {
         mItemList = itemList;
         mItemNum = num;
     }
 
-    void Add_Last(JMenu* lastMenu)
+    void Set_Last(JMenu* lastMenu)
     {
         mLastMenu = lastMenu;
     }

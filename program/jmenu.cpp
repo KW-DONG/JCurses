@@ -1,6 +1,11 @@
 #include "jmenu.hpp"
 #include <stdlib.h>
-//#include <cstring>
+
+void Switch_Menu(JMenu* current, JMenu* next)
+{
+    current->Close();
+    next->Display();
+}
 
 void JMenu::Create_Menu(void)
 {
@@ -37,15 +42,13 @@ void JMenu::Display(void)
 {
     int c;
 
-    this->Create_Menu();
+    Create_Menu();
 
     Show();
 
     wrefresh(Get_Base_Window());
 
     refresh();
-
-    //box(mMenuWindow,0,0);
 
     post_menu(mMenu);
 
@@ -73,11 +76,7 @@ void JMenu::Display(void)
             break;
         
         case KEY_LEFT:
-            if (this->mLastMenu != NULL)
-            {
-                this->mLastMenu->Display();
-                this->Close();
-            }
+            if (mLastMenu != NULL)  Switch_Menu(this,mLastMenu);
             break;
         
         case KEY_RIGHT:
@@ -86,7 +85,7 @@ void JMenu::Display(void)
 
                 cur = current_item(mMenu);
                 if (mItemList[cur->index].Get_Event()!= NULL)
-                Print(mItemList[cur->index].Selected());
+                Print(mItemList[cur->index].Selected(this));
 
                 pos_menu_cursor(mMenu);
                 break;
