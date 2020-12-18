@@ -5,7 +5,6 @@
 void JInit()
 {
     initscr();
-    //start_color();
     curs_set(0);
     cbreak();
     noecho();
@@ -25,12 +24,9 @@ void JWindow::Show(void)
 
     wborder(mBaseWindow, '|', '|', '-', '-', '+', '+', '+', '+');
 
-    mvwprintw(mBaseWindow, 0, (int)temp, "[%s]", mTitle);
-
-    //box(mBaseWindow, 0, 0);
+    mvwprintw(mBaseWindow, 0, (int)temp-1, "[%s]", mTitle);
 
     keypad(mBaseWindow, TRUE);
-
 }
 
 const char* JWidget::Get_Feedback(int32_t feedback, event_feedback_t* messageList)

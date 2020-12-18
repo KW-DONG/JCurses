@@ -31,7 +31,7 @@ public:
         else
         {
             itemEvent();
-            return "0";
+            return "Selected";
         }
     }
 
@@ -45,6 +45,17 @@ private:
 
     event_feedback_t* mMessageList;
 };
+
+/**
+ * +--------[Title]--------+
+ * |    +----------+       |
+ * |    |          |       |
+ * |    |  Menus   |       |
+ * |    |          |       |
+ * |    |          |       |
+ * |    +----------+       |
+ * +-----------------------+
+ */
 
 class JMenu : public JWindow
 {

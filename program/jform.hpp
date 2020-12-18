@@ -28,12 +28,38 @@ public:
 
     const char* Pull(char* var)
     {
-        return Get_Feedback(mPull(var),pullMessageList);
+        if (pullMessageList!=NULL)
+        {
+            return Get_Feedback(mPull(var),pullMessageList);
+        }
+        else
+        {
+            mPull(var);
+            return "Pull";
+        }
     }
 
     const char* Push(const char* var)
     {
-        return Get_Feedback(mPush(var),pushMessageList);
+        if (pushMessageList!=NULL)
+        {
+            return Get_Feedback(mPush(var),pushMessageList);
+        }
+        else
+        {
+            mPush(var);
+            return "Push";
+        }
+    }
+
+    Field_Pull_Callback Get_Pull(void)
+    {
+        return mPull;
+    }
+
+    Field_Push_Callback Get_Push(void)
+    {
+        return mPush;
     }
 
 private:
@@ -49,9 +75,7 @@ private:
 };
 
 /**
- * +-----------------------+
- * |         Title         |
- * +-----------------------+
+ * +--------[Title]--------+
  * |+----------++---------+|
  * ||          ||         ||
  * ||  Labels  ||   Form  ||
@@ -59,15 +83,13 @@ private:
  * ||          ||         ||
  * |+----------++---------+|
  * +-----------------------+
- * 
  */
-
 class JForm : public JWindow
 {
 public:
 
     JForm(int32_t startX, int32_t startY, uint32_t height, uint32_t width, const char* title):
-    JWindow(startX,startY,height,width,title){}
+    JWindow(startX,startY,height,width,title),mFieldList(NULL),mLastMenu(NULL),mFieldNum(0){}
 
     ~JForm(){}
 
@@ -75,10 +97,10 @@ public:
 
     void Close(void) override;
 
-    virtual void Add_Fields(JField* fieldList)
+    virtual void Add_Fields(JField* fieldList, int32_t num)
     {
         mFieldList = fieldList;
-        mFieldNum = sizeof(fieldList);
+        mFieldNum = num;
     }
 
     void Add_Last(JMenu* lastMenu)
