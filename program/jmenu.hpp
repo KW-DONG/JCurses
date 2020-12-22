@@ -6,13 +6,13 @@
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 #define MIDDLE_WIN_X(x,w) (x+w/2)
 
-typedef int32_t (*Item_Sel_Callback)(JMenu* thisMenu);
-
-void Switch_Menu(JMenu* current, JMenu* next);
-
+//T = JMenu
+template <class T>
 class JItem : public JWidget
 {
 public:
+    typedef int32_t (*Item_Sel_Callback)(T* menuPtr);
+
     JItem(const char*title):JWidget(title),itemEvent(NULL),mMessageList(NULL){}
 
     ~JItem(){}
@@ -24,15 +24,15 @@ public:
         mMessageList = messageList;
     }
 
-    const char* Selected(JMenu* thisMenu)
+    const char* Selected(T* menuPtr)
     {
         if (mMessageList!=NULL)
         {
-           return Get_Feedback(itemEvent(thisMenu),mMessageList); 
+           return Get_Feedback(itemEvent(menuPtr),mMessageList); 
         }
         else
         {
-            itemEvent(thisMenu);
+            itemEvent(menuPtr);
             return "Selected";
         }
     }
@@ -43,7 +43,7 @@ public:
     }
 
 private:
-    int32_t (*itemEvent)(JMenu*);      /*write an event here*/
+    int32_t (*itemEvent)(T* menuPtr);      /*write an event here*/
 
     event_feedback_t* mMessageList;
 };
@@ -72,13 +72,13 @@ public:
 
     void Close(void) override;
 
-    virtual void Set_Items(JItem* itemList, int32_t num)
+    virtual void Add_Items(JItem<JMenu>* itemList, int32_t num)
     {
         mItemList = itemList;
         mItemNum = num;
     }
 
-    void Set_Last(JMenu* lastMenu)
+    void Add_Last(JMenu* lastMenu)
     {
         mLastMenu = lastMenu;
     }
@@ -95,15 +95,14 @@ private:
 
     ITEM**      mItems;             /*item list used to allocate memory*/
 
-    JItem*      mItemList;
+    JItem<JMenu>*      mItemList;
     
     int32_t    mItemNum;
 
     JMenu*      mLastMenu;
-
 };
 
-
+int32_t Change_Page(JMenu* currentMenu, JMenu* nextMenu);
 
 #endif
 

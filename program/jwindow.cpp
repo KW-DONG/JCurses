@@ -17,14 +17,14 @@ void JWindow::Show(void)
     int length = strlen(mTitle);
     float temp = (w - length)/ 2;
 
-    refresh();
-
     /*create window*/
     mBaseWindow = newwin(h,w,y,x);
 
     wborder(mBaseWindow, '|', '|', '-', '-', '+', '+', '+', '+');
 
     mvwprintw(mBaseWindow, 0, (int)temp-1, "[%s]", mTitle);
+
+    wrefresh(mBaseWindow);
 
     keypad(mBaseWindow, TRUE);
 }

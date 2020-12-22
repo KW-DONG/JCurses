@@ -1,26 +1,15 @@
 #include "jmenu.hpp"
 #include <stdlib.h>
-
-void Switch_Menu(JMenu* current, JMenu* next)
-{
-    current->Close();
-    next->Display();
-}
+//#include <cstring>
 
 void JMenu::Create_Menu(void)
-{
-    //mItems = (ITEM **)calloc(mItemNum,sizeof(ITEM *));
-    
+{    
     mItems = (ITEM**)new ITEM* [mItemNum];
     
     for(int i = 0; i < mItemNum; ++i)
     {
         mItems[i] = new_item(mItemList[i].Get_Title()," ");
-
-        //set_item_userptr(mItems[i],(void*)(mItemList[i].Selected()));
     }
-
-    //mItems[mItemNum] = new_item((char*)NULL,(char*)NULL);
 
     mMenu = new_menu((ITEM**)mItems);
 
@@ -46,11 +35,9 @@ void JMenu::Display(void)
 
     Show();
 
-    wrefresh(Get_Base_Window());
-
-    refresh();
-
     post_menu(mMenu);
+
+    wrefresh(Get_Base_Window());
 
     wrefresh(mMenuWindow);
 
@@ -76,7 +63,7 @@ void JMenu::Display(void)
             break;
         
         case KEY_LEFT:
-            if (mLastMenu != NULL)  Switch_Menu(this,mLastMenu);
+            if (this->mLastMenu != NULL)    Change_Page(this,mLastMenu);
             break;
         
         case KEY_RIGHT:
@@ -95,6 +82,15 @@ void JMenu::Display(void)
         wrefresh(mMenuWindow);
         wrefresh(Get_Base_Window());
     }
+    
+    //Close all menus
+    JMenu* last;
+    last = mLastMenu;
+    while(last->mLastMenu!=NULL)
+    {
+        last->Close();
+        last = last->mLastMenu;
+    }
     Close();
 }
 
@@ -109,6 +105,13 @@ void JMenu::Close(void)
     delete[] mItems;
 
     mItems = NULL;
+}
+
+int32_t Change_Page(JMenu* currentMenu, JMenu* nextMenu)
+{
+    nextMenu->Display();
+    currentMenu->Close();
+    return 0;
 }
 
 

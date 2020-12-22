@@ -82,7 +82,6 @@ typedef struct
  * @brief widget base class
  * 
  */
-
 class JWidget
 {
 public:

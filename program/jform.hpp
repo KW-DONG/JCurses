@@ -103,7 +103,7 @@ public:
         mFieldNum = num;
     }
 
-    void Set_Last(JMenu* lastMenu)
+    void Add_Last(JMenu* lastMenu)
     {
         mLastMenu = lastMenu;
     }
