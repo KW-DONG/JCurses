@@ -37,7 +37,7 @@ void JMenu::Display(void)
 
     post_menu(mMenu);
 
-    wrefresh(Get_Base_Window());
+    //wrefresh(Get_Base_Window());
 
     wrefresh(mMenuWindow);
 
