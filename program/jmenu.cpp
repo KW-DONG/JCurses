@@ -19,11 +19,15 @@ void JMenu::Create_Menu(void)
 
     mMenuWindow = derwin(Get_Base_Window(),Get_H()-3,menuWinWidth,2,menuStartX);
 
+    set_menu_win(mMenu, Get_Base_Window());
+
     set_menu_sub(mMenu, mMenuWindow);
 
     set_menu_format(mMenu,Get_H()-4,1);
 
     set_menu_mark(mMenu,"->");
+
+    post_menu(mMenu);
 
 }
 
@@ -31,17 +35,13 @@ void JMenu::Display(void)
 {
     int c;
 
-    Create_Menu();
-
     Show();
 
-    post_menu(mMenu);
+    Create_Menu();
 
-    //wrefresh(Get_Base_Window());
+    wrefresh(Get_Base_Window());
 
-    wrefresh(mMenuWindow);
-
-    while((c = wgetch(Get_Base_Window())) != KEY_F(1))
+    while((c = wgetch(Get_Base_Window())) != KEY_F(2))
     {
         switch (c)
         {
@@ -73,25 +73,23 @@ void JMenu::Display(void)
                 cur = current_item(mMenu);
                 if (mItemList[cur->index].Get_Event()!= NULL)
                 Print(mItemList[cur->index].Selected(this));
-
                 pos_menu_cursor(mMenu);
-                break;
             }
             break;
         }
-        wrefresh(mMenuWindow);
         wrefresh(Get_Base_Window());
+        
     }
     
     //Close all menus
     JMenu* last;
     last = mLastMenu;
-    while(last->mLastMenu!=NULL)
+    while(last!=NULL)
     {
         last->Close();
         last = last->mLastMenu;
     }
-    Close();
+    //Close();
 }
 
 void JMenu::Close(void)
@@ -108,9 +106,9 @@ void JMenu::Close(void)
 }
 
 int32_t Change_Page(JMenu* currentMenu, JMenu* nextMenu)
-{
-    nextMenu->Display();
+{ 
     currentMenu->Close();
+    nextMenu->Display();
     return 0;
 }
 

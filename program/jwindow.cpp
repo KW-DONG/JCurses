@@ -24,8 +24,6 @@ void JWindow::Show(void)
 
     mvwprintw(mBaseWindow, 0, (int)temp-1, "[%s]", mTitle);
 
-    wrefresh(mBaseWindow);
-
     keypad(mBaseWindow, TRUE);
 }
 

@@ -31,28 +31,24 @@ int32_t Item2_Event(JMenu* ptr)
 int32_t Item11_Event(JMenu* ptr)
 {
     mvprintw(0,0,"item11");
-    refresh();
     return 0;
 }
 
 int32_t Item12_Event(JMenu* ptr)
 {
     mvprintw(0,0,"item12");
-    refresh();
     return 0;
 }
 
 int32_t Item21_Event(JMenu* ptr)
 {
     mvprintw(0,0,"item21");
-    refresh();
     return 0;
 }
 
 int32_t Item22_Event(JMenu* ptr)
 {
     mvprintw(0,0,"item22");
-    refresh();
     return 0;
 }
 
