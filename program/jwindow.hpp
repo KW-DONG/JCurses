@@ -23,15 +23,10 @@ public:
     }
     ~JWindow()
     {
-        wborder(mBaseWindow, ' ', ' ', ' ',' ',' ',' ',' ',' ');
-        wrefresh(mBaseWindow);
-        delwin(mBaseWindow);
-        endwin();
+        //wborder(mBaseWindow, ' ', ' ', ' ',' ',' ',' ',' ',' ');
+        //wrefresh(mBaseWindow);
+        //delwin(mBaseWindow);
     }
-
-    virtual void Display(){}
-
-    virtual void Close(){}
 
     int32_t Get_X(void) {return x;}
 
@@ -46,10 +41,8 @@ public:
     void Print(const char* content)
     {
         mvprintw(LINES - 2,0,content);
-        refresh();
+        //refresh();
     }
-
-protected:
 
     void Show(void);            /*show title and box*/
 

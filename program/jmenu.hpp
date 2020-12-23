@@ -13,7 +13,7 @@ class JItem : public JWidget
 public:
     typedef int32_t (*Item_Sel_Callback)(T* menuPtr);
 
-    JItem(const char*title):JWidget(title),itemEvent(NULL),mMessageList(NULL){}
+    JItem(const char*title):JWidget(title),itemEvent(NULL),mMessageList(NULL),mNextMenu(NULL){}
 
     ~JItem(){}
 
@@ -22,6 +22,11 @@ public:
         itemEvent = func;
 
         mMessageList = messageList;
+    }
+
+    void Set_Next_Menu(T* next)
+    {
+        mNextMenu = next;
     }
 
     const char* Selected(T* menuPtr)
@@ -37,12 +42,19 @@ public:
         }
     }
 
+    T* Get_Next_Menu()
+    {
+        return mNextMenu;
+    }
+
     Item_Sel_Callback Get_Event(void)
     {
         return itemEvent;
     }
 
 private:
+    T* mNextMenu;
+
     int32_t (*itemEvent)(T* menuPtr);      /*write an event here*/
 
     event_feedback_t* mMessageList;
@@ -64,31 +76,57 @@ class JMenu : public JWindow
 public:
 
     JMenu(int32_t startX, int32_t startY, uint32_t height, uint32_t width, const char* title):
-    JWindow(startX,startY,height,width,title),mItemList(NULL),mLastMenu(NULL),mItemNum(0){}
+    JWindow(startX,startY,height,width,title),mItemList(NULL),mItemNum(0){}
 
     ~JMenu(){}
 
-    void Display(void) override;
+    void Create_Menu(void);
 
-    void Close(void) override;
+    void Close_Menu(void);
 
-    virtual void Add_Items(JItem<JMenu>* itemList, int32_t num)
+    virtual void Set_Items(JItem<JMenu>* itemList, int32_t num)
     {
         mItemList = itemList;
         mItemNum = num;
     }
 
-    void Add_Last(JMenu* lastMenu)
+    void Set_Last_Menu(JMenu* menu)
     {
-        mLastMenu = lastMenu;
+        mLastMenu = menu;
+    }
+
+    JMenu* Get_Last_Menu(void)
+    {
+        return mLastMenu;
+    }
+
+    JItem<JMenu>* Get_Item_List(void)
+    {
+        return mItemList;
+    }
+
+    WINDOW* Get_Menu_Win(void)
+    {
+        return mMenuWindow;
+    }
+
+    MENU* Get_Menu_List(void)
+    {
+        return mMenu;
+    }
+
+    ITEM** Get_Items(void)
+    {
+        return mItems;
+    }
+
+    int32_t Get_Item_Num(void)
+    {
+        return mItemNum;
     }
 
 protected:
 
-    void Create_Menu(void);
-
-private:
-    
     WINDOW*     mMenuWindow;        /*the window that associate the menu*/
 
     MENU*       mMenu;              /*the menu list*/
@@ -99,10 +137,51 @@ private:
     
     int32_t    mItemNum;
 
-    JMenu*      mLastMenu;
+    JMenu* mLastMenu;
+
 };
 
-int32_t Change_Page(JMenu* currentMenu, JMenu* nextMenu);
+class JBaseMenu : public JMenu
+{
+public:
+    JBaseMenu(int32_t startX, int32_t startY, uint32_t height, uint32_t width, const char* title):
+    JMenu(startX,startY,height,width,title),mCurrentMenu(this),refreshBit(TRUE){}
+    
+    ~JBaseMenu()
+    {
+
+    }
+
+    void Display(void);
+
+protected:
+    void Switch_Forward(JMenu* newMenu)
+    {
+        mCurrentMenu->Close_Menu();
+        newMenu->Set_Last_Menu(mCurrentMenu);
+        mCurrentMenu = newMenu;
+        refreshBit = TRUE;
+    }
+
+    void Switch_Backward(void)
+    {
+        mCurrentMenu->Close_Menu();
+        mCurrentMenu = mCurrentMenu->Get_Last_Menu();
+        refreshBit = TRUE;
+    }
+
+    void Refresh_Menu(void)
+    {
+        mCurrentMenu->Show();
+        mCurrentMenu->Create_Menu();
+    }
+
+private:
+    JMenu* mCurrentMenu;
+
+    bool refreshBit;
+
+};
 
 #endif
 

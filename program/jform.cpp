@@ -67,7 +67,7 @@ void JForm::Display(void)
 {
     this->Create_Form();
     int c;
-    while ((c = wgetch(mFormWindow)) != KEY_F(1))
+    while ((c = wgetch(mFormWindow)) != KEY_F(2))
     {
         switch (c)
         {
