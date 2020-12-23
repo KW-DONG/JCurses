@@ -42,3 +42,8 @@ const char* JWidget::Get_Feedback(int32_t feedback, event_feedback_t* messageLis
     }
     return noFeedback;
 }
+
+void JPrint(const char* content)
+{
+    mvprintw(0,0,content);
+}

@@ -145,12 +145,10 @@ class JBaseMenu : public JMenu
 {
 public:
     JBaseMenu(int32_t startX, int32_t startY, uint32_t height, uint32_t width, const char* title):
-    JMenu(startX,startY,height,width,title),mCurrentMenu(this),refreshBit(TRUE){}
+    JMenu(startX,startY,height,width,title),mCurrentMenu(this),refreshBit(TRUE)
+    {}
     
-    ~JBaseMenu()
-    {
-
-    }
+    ~JBaseMenu(){}
 
     void Display(void);
 
@@ -174,6 +172,18 @@ protected:
     {
         mCurrentMenu->Show();
         mCurrentMenu->Create_Menu();
+    }
+
+    void Base_Print(const char* content)
+    {
+        mvprintw(LINES-2,0,content);
+    }
+
+    void Clear_Output(void)
+    {
+        JPrint("                                       ");
+        Base_Print("                                      ");
+        refresh();
     }
 
 private:

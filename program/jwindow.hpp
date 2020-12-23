@@ -38,12 +38,6 @@ public:
 
     WINDOW* Get_Base_Window(void)   {return mBaseWindow;}
 
-    void Print(const char* content)
-    {
-        mvprintw(LINES - 2,0,content);
-        //refresh();
-    }
-
     void Show(void);            /*show title and box*/
 
     void Terminal_Print(const char* text);
@@ -102,5 +96,7 @@ private:
  * @note call it as initialization
  */
 void JInit(void);
+
+void JPrint(const char* content);
 
 #endif
