@@ -45,9 +45,9 @@ void JForm::Create_Form(void)
 
 }
 
-void JForm::Close(void)
+void JForm::Close_Form(void)
 {
-    this->selected = 0;
+    selected = 0;
 
     unpost_form(mForm);
 
@@ -65,10 +65,11 @@ void JForm::Close(void)
 
 void JForm::Display(void)
 {
-    this->Create_Form();
-    int c;
-    while ((c = wgetch(mFormWindow)) != KEY_F(2))
+    Create_Form();
+    int c = 0;
+    while (c != KEY_LEFT)
     {
+        c = wgetch(mFormWindow);
         switch (c)
         {
             case KEY_DOWN:
@@ -85,16 +86,6 @@ void JForm::Display(void)
             case KEY_PPAGE:
                 form_driver(mForm, REQ_SCR_BPAGE);
                 break;
-
-            /*update data and return to last page*/
-            case KEY_LEFT:
-                if (this->mLastMenu != NULL)
-                {
-                    Update();
-                    this->mLastMenu->Display();
-                    this->Close();
-                }
-                break;
             case KEY_BACKSPACE:
                 form_driver(mForm,REQ_DEL_PREV);
                 break;
@@ -104,6 +95,8 @@ void JForm::Display(void)
         }
         wrefresh(mFormWindow);
     }
+    Update();
+    Close_Form();
 }
 
 void JForm::Update(void)

@@ -8,7 +8,7 @@ void JMenu::Create_Menu(void)
     
     for(int i = 0; i < mItemNum; ++i)
     {
-        mItems[i] = new_item(mItemList[i].Get_Title()," ");
+        mItems[i] = new_item(mItemList[i]->Get_Title()," ");
     }
 
     mMenu = new_menu((ITEM**)mItems);
@@ -54,20 +54,21 @@ void JBaseMenu::Display(void)
         if (refreshBit)
         {
             Refresh_Menu();
-            refreshBit = FALSE;
+            refreshBit = false;
         }
-        c = wgetch(mCurrentMenu->Get_Base_Window());
         wrefresh(mCurrentMenu->Get_Base_Window());
+        c = wgetch(mCurrentMenu->Get_Base_Window());
+        
         switch (c)
         {
         case KEY_DOWN:
             menu_driver(mCurrentMenu->Get_Menu_List(), REQ_DOWN_ITEM);
-            Clear_Output();
+            if (clearFlag==true)    Clear_Output();
             break;
         
         case KEY_UP:
             menu_driver(mCurrentMenu->Get_Menu_List(), REQ_UP_ITEM);
-            Clear_Output();
+            if (clearFlag==true)    Clear_Output();
             break;
 
         case KEY_NPAGE:
@@ -89,11 +90,11 @@ void JBaseMenu::Display(void)
                 ITEM *cur;
                 cur = current_item(mCurrentMenu->Get_Menu_List());
 
-                if (mCurrentMenu->Get_Item_List()[cur->index].Get_Event()!=NULL)
-                Base_Print(mCurrentMenu->Get_Item_List()[cur->index].Selected(mCurrentMenu));
+                if (mCurrentMenu->Get_Item_List()[cur->index]->Get_Event()!=NULL)
+                Base_Print(mCurrentMenu->Get_Item_List()[cur->index]->Selected(mCurrentMenu));
 
                 JMenu* nextMenu;
-                nextMenu = mCurrentMenu->Get_Item_List()[cur->index].Get_Next_Menu();
+                nextMenu = mCurrentMenu->Get_Item_List()[cur->index]->Get_Next_Menu();
 
                 if (nextMenu!=NULL)
                 Switch_Forward(nextMenu);

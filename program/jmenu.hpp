@@ -60,6 +60,7 @@ private:
     event_feedback_t* mMessageList;
 };
 
+
 /**
  * +--------[Title]--------+
  * |    +----------+       |
@@ -84,10 +85,15 @@ public:
 
     void Close_Menu(void);
 
-    virtual void Set_Items(JItem<JMenu>* itemList, int32_t num)
+    virtual void Set_Items(JItem<JMenu>** itemList, int32_t num)
     {
         mItemList = itemList;
         mItemNum = num;
+    }
+
+    void Add_Item(JItem<JMenu>* lastItem)
+    {
+
     }
 
     void Set_Last_Menu(JMenu* menu)
@@ -100,7 +106,7 @@ public:
         return mLastMenu;
     }
 
-    JItem<JMenu>* Get_Item_List(void)
+    JItem<JMenu>** Get_Item_List(void)
     {
         return mItemList;
     }
@@ -133,7 +139,7 @@ protected:
 
     ITEM**      mItems;             /*item list used to allocate memory*/
 
-    JItem<JMenu>*      mItemList;
+    JItem<JMenu>**      mItemList;
     
     int32_t    mItemNum;
 
@@ -158,14 +164,14 @@ protected:
         mCurrentMenu->Close_Menu();
         newMenu->Set_Last_Menu(mCurrentMenu);
         mCurrentMenu = newMenu;
-        refreshBit = TRUE;
+        refreshBit = true;
     }
 
     void Switch_Backward(void)
     {
         mCurrentMenu->Close_Menu();
         mCurrentMenu = mCurrentMenu->Get_Last_Menu();
-        refreshBit = TRUE;
+        refreshBit = true;
     }
 
     void Refresh_Menu(void)
@@ -177,6 +183,7 @@ protected:
     void Base_Print(const char* content)
     {
         mvprintw(LINES-2,0,content);
+        clearFlag = true;
     }
 
     void Clear_Output(void)
@@ -190,6 +197,8 @@ private:
     JMenu* mCurrentMenu;
 
     bool refreshBit;
+
+    bool clearFlag;
 
 };
 
