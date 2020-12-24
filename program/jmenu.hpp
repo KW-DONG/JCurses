@@ -91,11 +91,6 @@ public:
         mItemNum = num;
     }
 
-    void Add_Item(JItem<JMenu>* lastItem)
-    {
-
-    }
-
     void Set_Last_Menu(JMenu* menu)
     {
         mLastMenu = menu;

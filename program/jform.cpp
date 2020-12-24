@@ -17,11 +17,11 @@ void JForm::Create_Form(void)
 
         set_field_just(mFields[i],JUSTIFY_CENTER);
 
-        mvprintw(Get_Y()+4+i,Get_X()+1,mFieldList[i].Get_Title());     /*print field title*/
+        mvprintw(Get_Y()+4+i,Get_X()+1,mFieldList[i]->Get_Title());     /*print field title*/
 
         set_field_type(mFields[i],TYPE_NUMERIC);                /*numerical inputs only*/
 
-        mFieldList[i].Pull(value);
+        mFieldList[i]->Pull(value);
 
         set_field_buffer(mFields[i],0,value);
 
@@ -107,9 +107,9 @@ void JForm::Update(void)
 
     for (i = 0; i < mFieldNum; i++)
     {
-        mFieldList[i].Push(field_buffer(mFields[i],0));
+        mFieldList[i]->Push(field_buffer(mFields[i],0));
 
-        mFieldList[i].Pull(p);
+        mFieldList[i]->Pull(p);
 
         set_field_buffer(mFields[i],0,p);
     }

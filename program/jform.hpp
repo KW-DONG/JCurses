@@ -6,7 +6,7 @@
 
 typedef int32_t (*Field_Pull_Callback)(char*);
 
-typedef int32_t (*Field_Push_Callback)(const char*);
+typedef int32_t (*Field_Push_Callback)(char*);
 
 class JField : public JWidget
 {
@@ -39,7 +39,7 @@ public:
         }
     }
 
-    const char* Push(const char* var)
+    const char* Push(char* var)
     {
         if (pushMessageList!=NULL)
         {
@@ -64,7 +64,7 @@ public:
 
 private:
 
-    int32_t (*mPush)(const char*);
+    int32_t (*mPush)(char*);
 
     int32_t (*mPull)(char*);
 
@@ -97,7 +97,7 @@ public:
 
     void Close_Form(void);
 
-    virtual void Add_Fields(JField* fieldList, int32_t num)
+    virtual void Set_Fields(JField** fieldList, int32_t num)
     {
         mFieldList = fieldList;
         mFieldNum = num;
@@ -122,7 +122,7 @@ private:
 
     FIELD** mFields;
 
-    JField* mFieldList;
+    JField** mFieldList;
     
     JMenu* mLastMenu;
 
