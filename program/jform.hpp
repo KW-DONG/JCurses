@@ -93,9 +93,9 @@ public:
 
     ~JForm(){}
 
-    void Display(void) override;
+    void Display(void);
 
-    void Close(void) override;
+    void Close_Form(void);
 
     virtual void Add_Fields(JField* fieldList, int32_t num)
     {

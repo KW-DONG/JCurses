@@ -54,11 +54,11 @@ int main()
     item21.Set_Event(Item21_Event,NULL);
     item22.Set_Event(Item22_Event,NULL);
 
-    JItem<JMenu> baseMenuList[] = {item1,item2,(JItem<JMenu>)NULL};
+    JItem<JMenu>* baseMenuList[] = {&item1,&item2};
 
-    JItem<JMenu> menu1List[] = {item11,item12,(JItem<JMenu>)NULL};
+    JItem<JMenu>* menu1List[] = {&item11,&item12};
 
-    JItem<JMenu> menu2List[] = {item21,item22,(JItem<JMenu>)NULL};
+    JItem<JMenu>* menu2List[] = {&item21,&item22};
 
     baseMenu.Set_Items(baseMenuList,ARRAY_SIZE(baseMenuList));
 
