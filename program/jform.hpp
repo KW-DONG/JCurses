@@ -84,16 +84,16 @@ private:
  * |+----------++---------+|
  * +-----------------------+
  */
-class JForm : public JWindow
+class JForm : public JApp
 {
 public:
 
     JForm(int32_t startX, int32_t startY, uint32_t height, uint32_t width, const char* title):
-    JWindow(startX,startY,height,width,title),mFieldList(NULL),mLastMenu(NULL),mFieldNum(0){}
+    JApp(startX,startY,height,width,title),mFieldList(NULL),mLastMenu(NULL),mFieldNum(0){}
 
     ~JForm(){}
 
-    void Display(void);
+    void Display(void) override;
 
     void Close_Form(void);
 
@@ -101,11 +101,6 @@ public:
     {
         mFieldList = fieldList;
         mFieldNum = num;
-    }
-
-    void Add_Last(JMenu* lastMenu)
-    {
-        mLastMenu = lastMenu;
     }
 
     void Update(void);          /*Save and update parameters*/
