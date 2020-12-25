@@ -29,6 +29,11 @@ public:
         mNextMenu = next;
     }
 
+    void Set_Next_App(JApp* next)
+    {
+        mNextApp = next;
+    }
+
     const char* Selected(T* menuPtr)
     {
         if (mMessageList!=NULL)
@@ -47,13 +52,21 @@ public:
         return mNextMenu;
     }
 
+    JApp* Get_Next_App()
+    {
+        return mNextApp;
+    }
+
     Item_Sel_Callback Get_Event(void)
     {
         return itemEvent;
     }
 
 private:
+
     T* mNextMenu;
+
+    JApp* mNextApp;
 
     int32_t (*itemEvent)(T* menuPtr);      /*write an event here*/
 
@@ -142,16 +155,20 @@ protected:
 
 };
 
-class JBaseMenu : public JMenu
+class JBaseMenu : public JApp
 {
 public:
     JBaseMenu(int32_t startX, int32_t startY, uint32_t height, uint32_t width, const char* title):
-    JMenu(startX,startY,height,width,title),mCurrentMenu(this),refreshBit(TRUE)
-    {}
+    JApp(startX,startY,height,width,title){}
+
+    void Set_Items(JItem<JMenu>** list, int32_t num)
+    {
+
+    }
     
     ~JBaseMenu(){}
 
-    void Display(void);
+    void Display(void) override;
 
 protected:
     void Switch_Forward(JMenu* newMenu)
@@ -159,14 +176,14 @@ protected:
         mCurrentMenu->Close_Menu();
         newMenu->Set_Last_Menu(mCurrentMenu);
         mCurrentMenu = newMenu;
-        refreshBit = true;
+        Set_Refresh_Bit();
     }
 
     void Switch_Backward(void)
     {
         mCurrentMenu->Close_Menu();
         mCurrentMenu = mCurrentMenu->Get_Last_Menu();
-        refreshBit = true;
+        Set_Refresh_Bit();
     }
 
     void Refresh_Menu(void)
@@ -175,25 +192,12 @@ protected:
         mCurrentMenu->Create_Menu();
     }
 
-    void Base_Print(const char* content)
-    {
-        mvprintw(LINES-2,0,content);
-        clearFlag = true;
-    }
-
-    void Clear_Output(void)
-    {
-        JPrint("                                       ");
-        Base_Print("                                      ");
-        refresh();
-    }
+    void Run_App(JApp* app);
 
 private:
     JMenu* mCurrentMenu;
 
-    bool refreshBit;
-
-    bool clearFlag;
+    JMenu* mThisMenu;
 
 };
 

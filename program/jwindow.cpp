@@ -47,3 +47,4 @@ void JPrint(const char* content)
 {
     mvprintw(0,0,content);
 }
+

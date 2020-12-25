@@ -3,6 +3,14 @@
 #include <ncurses.h>
 
 /**
+ * @brief JCurses initialization function
+ * @note call it as initialization
+ */
+void JInit(void);
+
+void JPrint(const char* content);
+
+/**
  *                 w
  *      +-------[Title]-------+
  *      |                     |
@@ -90,12 +98,48 @@ private:
     const int32_t mWidth;
 };
 
-/**
- * @brief JCurses initialization function
- * @note call it as initialization
- */
-void JInit(void);
+class JApp : public JWindow
+{
+public:
+    JApp(int32_t startX, int32_t startY, uint32_t height, uint32_t width, const char* title):
+    JWindow(startX,startY,height,width,title),refreshBit(true),clearFlag(false){}
+    ~JApp(){}
 
-void JPrint(const char* content);
+    virtual void Display(){}
+
+    void Base_Print(const char* content)
+    {
+        mvprintw(LINES-2,0,content);
+        clearFlag = true;
+    }
+
+    void Base_Clear(void)
+    {
+        Base_Print("                                    ");
+        refresh();
+        Reset_Clear_Flag();
+    }
+
+    void Set_Refresh_Bit(void)  {refreshBit = true;}
+
+    void Reset_Refresh_Bit(void){refreshBit = false;}
+
+    void Set_Clear_Flag(void)   {clearFlag = true;}
+
+    void Reset_Clear_Flag(void) {clearFlag = false;}
+
+    bool Get_Refresh_Bit(void)  {return refreshBit;}
+
+    bool Get_Clear_Flag(void)   {return clearFlag;}
+
+private:
+
+    bool refreshBit;
+
+    bool clearFlag;
+
+};
+
+
 
 #endif
