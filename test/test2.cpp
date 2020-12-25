@@ -29,7 +29,7 @@ int main()
 
     item1.Set_Event(Item1_Event,NULL);
     item2.Set_Event(Item2_Event,NULL);
-    item11.Set_Event(Item11_Event,NULL);
+    item11.Set_Next_App(&form1);
     item12.Set_Event(Item12_Event,NULL);
     field1.Set_Pull(Field1_Pull,NULL);
     field1.Set_Push(Field1_Push,NULL);
@@ -74,11 +74,6 @@ int32_t Field2_Pull(char* text)
 int32_t Item2_Event(JMenu* ptr)
 {
     JPrint(data2);
-}
-
-int32_t Item11_Event(JMenu* ptr)
-{
-    
 }
 
 int32_t Item12_Event(JMenu* ptr)

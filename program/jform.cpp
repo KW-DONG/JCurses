@@ -1,5 +1,4 @@
 #include "jform.hpp"
-#include "stdlib.h"
 
 void JForm::Create_Form(void)
 {
@@ -48,19 +47,17 @@ void JForm::Create_Form(void)
 void JForm::Close_Form(void)
 {
     selected = 0;
-
+    free_form(mForm);
     unpost_form(mForm);
-
     for (int32_t i = 0; i < mFieldNum; i++)
-    free_field(mFields[i]);
-
+    {
+        free_field(mFields[i]);
+    }
     delete[] mFields;
-
     mFields = NULL;
 
-    free_form(mForm);
-    
-    endwin();
+    delwin(mFormWindow);
+    delwin(Get_Base_Window());
 }
 
 void JForm::Display(void)
@@ -101,16 +98,11 @@ void JForm::Display(void)
 
 void JForm::Update(void)
 {
-    int i;
-
     char* p;
-
-    for (i = 0; i < mFieldNum; i++)
+    for (int i = 0; i < mFieldNum; i++)
     {
         mFieldList[i]->Push(field_buffer(mFields[i],0));
-
         mFieldList[i]->Pull(p);
-
         set_field_buffer(mFields[i],0,p);
     }
 }
