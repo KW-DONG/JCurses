@@ -159,14 +159,22 @@ class JBaseMenu : public JApp
 {
 public:
     JBaseMenu(int32_t startX, int32_t startY, uint32_t height, uint32_t width, const char* title):
-    JApp(startX,startY,height,width,title){}
+    JApp(startX,startY,height,width,title),mThisMenu(NULL)
+    {
+        mThisMenu = (JMenu*)new JMenu(startX,startY,height,width,title);
+        mCurrentMenu = mThisMenu;
+    }
+
+    ~JBaseMenu()
+    {
+        delete mThisMenu;
+        mThisMenu = NULL;
+    }
 
     void Set_Items(JItem<JMenu>** list, int32_t num)
     {
-
+        mThisMenu->Set_Items(list,num);
     }
-    
-    ~JBaseMenu(){}
 
     void Display(void) override;
 
