@@ -84,28 +84,23 @@ private:
  * |+----------++---------+|
  * +-----------------------+
  */
-class JForm : public JWindow
+class JForm : public JApp
 {
 public:
 
     JForm(int32_t startX, int32_t startY, uint32_t height, uint32_t width, const char* title):
-    JWindow(startX,startY,height,width,title),mFieldList(NULL),mLastMenu(NULL),mFieldNum(0){}
+    JApp(startX,startY,height,width,title),mFieldList(NULL),mLastMenu(NULL),mFieldNum(0){}
 
     ~JForm(){}
 
-    void Display(void);
+    virtual void Display(void);
 
     void Close_Form(void);
 
-    virtual void Set_Fields(JField** fieldList, int32_t num)
+    void Set_Fields(JField** fieldList, int32_t num)
     {
         mFieldList = fieldList;
         mFieldNum = num;
-    }
-
-    void Add_Last(JMenu* lastMenu)
-    {
-        mLastMenu = lastMenu;
     }
 
     void Update(void);          /*Save and update parameters*/
@@ -117,6 +112,8 @@ protected:
 private:
 
     WINDOW* mFormWindow;        /*the window that associate the form*/
+
+    WINDOW* mLabelWindow;
 
     FORM* mForm;                /*the form list*/
 

@@ -5,7 +5,7 @@
 void JInit()
 {
     initscr();
-    curs_set(0);
+    //curs_set(0);
     cbreak();
     noecho();
     keypad(stdscr,TRUE);
@@ -47,3 +47,4 @@ void JPrint(const char* content)
 {
     mvprintw(0,0,content);
 }
+

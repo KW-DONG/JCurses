@@ -52,36 +52,43 @@ int main()
     wrefresh(my_form_win);
     mvprintw(LINES - 2, 0, "Use UP, DOWN arrow keys to switch between fields");
     refresh();
-/* Loop through to get user requests */
-while((ch = wgetch(my_form_win)) != KEY_F(1))
-{ switch(ch)
-{ case KEY_DOWN:
-/* Go to next field */
-form_driver(my_form, REQ_NEXT_FIELD);
-/* Go to the end of the present buffer */
-/* Leaves nicely at the last character */
-form_driver(my_form, REQ_END_LINE);
-break;
-case KEY_UP:
-/* Go to previous field */
-form_driver(my_form, REQ_PREV_FIELD);
-form_driver(my_form, REQ_END_LINE);
-break;
-default:
-/* If this is a normal character, it gets */
-/* Printed */
-form_driver(my_form, ch);
-break;
+
+    /* Loop through to get user requests */
+    while((ch = wgetch(my_form_win)) != KEY_F(1))
+    { 
+        switch(ch)
+        { 
+            case KEY_DOWN:
+            /* Go to next field */
+            form_driver(my_form, REQ_NEXT_FIELD);
+            /* Go to the end of the present buffer */
+            /* Leaves nicely at the last character */
+            form_driver(my_form, REQ_END_LINE);
+            break;
+
+            case KEY_UP:
+            /* Go to previous field */
+            form_driver(my_form, REQ_PREV_FIELD);
+            form_driver(my_form, REQ_END_LINE);
+            break;
+
+            default:
+            /* If this is a normal character, it gets */
+            /* Printed */
+            form_driver(my_form, ch);
+            break;
+        }
+    }
+
+    /* Un post form and free the memory */
+    unpost_form(my_form);
+    free_form(my_form);
+    free_field(field[0]);
+    free_field(field[1]);
+    endwin();
+    return 0;
 }
-}
-/* Un post form and free the memory */
-unpost_form(my_form);
-free_form(my_form);
-free_field(field[0]);
-free_field(field[1]);
-endwin();
-return 0;
-}
+
 void print_in_middle(WINDOW *win, int starty, int startx, int width, char *string, chtype color)
 { int length, x, y;
 float temp;

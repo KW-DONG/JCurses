@@ -1,53 +1,64 @@
 #include "jform.hpp"
-#include "stdlib.h"
 
 void JForm::Create_Form(void)
 {
-    int rows, cols;
+    char* value;
 
     mFields = new FIELD* [mFieldNum+1];
 
-    char* value;
+    mFormWindow = derwin(Get_Base_Window(),Get_H()-4,(Get_W()-2)/2-1,2,(Get_W()/2));
+
+    mLabelWindow = derwin(Get_Base_Window(),Get_H()-4,(Get_W()-2)/2-1,2,1);
+
+    //box(mFormWindow,0,0);
+
+    //box(mLabelWindow,0,0);
+
+    keypad(Get_Base_Window(),TRUE);
+
 
     for (int i = 0; i < mFieldNum; ++i)
     {
-        mFields[i] = new_field(1,10,5+i,1,0,0);
+        mFields[i] = new_field(1,10,Get_Y()+1+i,Get_X()+10,0,0);
         
         field_opts_off(mFields[i], O_AUTOSKIP);
 
         set_field_just(mFields[i],JUSTIFY_CENTER);
 
-        mvprintw(Get_Y()+4+i,Get_X()+1,mFieldList[i]->Get_Title());     /*print field title*/
+        set_field_back(mFields[i],A_UNDERLINE);
 
-        set_field_type(mFields[i],TYPE_NUMERIC);                /*numerical inputs only*/
+        //set_field_type(mFields[i],TYPE_NUMERIC);                /*numerical inputs only*/
 
         mFieldList[i]->Pull(value);
 
-        set_field_buffer(mFields[i],0,value);
+        set_field_buffer(mFields[i],0,"12345");
 
+        //mvwprintw(mLabelWindow,1+i,5,mFieldList[i]->Get_Title());
     }
-    
+
     mFields[mFieldNum] = NULL;
 
     mForm = new_form(mFields);
 
-    scale_form(mForm, &rows, &cols);
+    set_form_win(mForm, Get_Base_Window());
 
-    mFormWindow = derwin(Get_Base_Window(),Get_H()-4,Get_W()-2,3,(Get_W()-2/2));
-
-    keypad(mFormWindow,TRUE);
-
-    set_form_win(mForm, mFormWindow);
-
-    set_form_sub(mForm, derwin(mFormWindow, rows, cols,2,2));
+    set_form_sub(mForm, mLabelWindow);
 
     post_form(mForm);
+
+    //wrefresh(Get_Base_Window());
+
+    wrefresh(mFormWindow);
 
 }
 
 void JForm::Close_Form(void)
 {
     selected = 0;
+
+    keypad(Get_Base_Window(),FALSE);
+
+    keypad(mFormWindow,TRUE);
 
     unpost_form(mForm);
 
@@ -65,11 +76,14 @@ void JForm::Close_Form(void)
 
 void JForm::Display(void)
 {
+    Show();
     Create_Form();
+    wrefresh(Get_Base_Window());
     int c = 0;
     while (c != KEY_LEFT)
     {
-        c = wgetch(mFormWindow);
+        c = wgetch(Get_Base_Window());
+
         switch (c)
         {
             case KEY_DOWN:

@@ -51,11 +51,12 @@ void JBaseMenu::Display(void)
     int c = 0;
     while(c != KEY_F(2))
     {
-        if (refreshBit)
+        if (Get_Refresh_Bit())
         {
             Refresh_Menu();
-            refreshBit = false;
+            Reset_Refresh_Bit();
         }
+
         wrefresh(mCurrentMenu->Get_Base_Window());
         c = wgetch(mCurrentMenu->Get_Base_Window());
         
@@ -63,12 +64,12 @@ void JBaseMenu::Display(void)
         {
         case KEY_DOWN:
             menu_driver(mCurrentMenu->Get_Menu_List(), REQ_DOWN_ITEM);
-            if (clearFlag==true)    Clear_Output();
+            if (Get_Clear_Flag())    Base_Clear();
             break;
         
         case KEY_UP:
             menu_driver(mCurrentMenu->Get_Menu_List(), REQ_UP_ITEM);
-            if (clearFlag==true)    Clear_Output();
+            if (Get_Clear_Flag())    Base_Clear();
             break;
 
         case KEY_NPAGE:
@@ -82,7 +83,7 @@ void JBaseMenu::Display(void)
         case KEY_LEFT:
             if (mCurrentMenu->Get_Last_Menu()!=NULL)
             Switch_Backward();
-            Clear_Output();
+            Base_Clear();
             break;
         
         case KEY_RIGHT:
@@ -96,12 +97,19 @@ void JBaseMenu::Display(void)
                 JMenu* nextMenu;
                 nextMenu = mCurrentMenu->Get_Item_List()[cur->index]->Get_Next_Menu();
 
-                if (nextMenu!=NULL)
-                Switch_Forward(nextMenu);
-                refresh();
+                if (nextMenu!=NULL) Switch_Forward(nextMenu);
+                else
+                {
+                    JApp* nextApp;
+                    nextApp = mCurrentMenu->Get_Item_List()[cur->index]->Get_Next_App();
+                    if (nextApp!=NULL)
+                    {
+                        Run_App(nextApp);
+                    }
+                }
+                refresh(); 
             }
             break;
-            
         }
     }
 
@@ -110,5 +118,17 @@ void JBaseMenu::Display(void)
         Switch_Backward();
         Refresh_Menu();
     }
+    mCurrentMenu->Close_Menu();
 }
+
+void JBaseMenu::Run_App(JApp* app)
+{
+    keypad(mCurrentMenu->Get_Base_Window(),FALSE);
+    mCurrentMenu->Close_Menu();
+    app->Display();
+    Set_Refresh_Bit();
+    keypad(mCurrentMenu->Get_Base_Window(),TRUE);
+}
+
+
 
