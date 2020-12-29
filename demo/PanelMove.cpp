@@ -1,4 +1,6 @@
 #include <panel.h>
+#include <stdlib.h>
+#include <cstring>
 
 typedef struct _PANEL_DATA {
     int x, y, w, h;
@@ -130,7 +132,7 @@ int main()
             break;
 
             case 10: /* Enter */
-            move(LINES - 4, 0);
+            //move(LINES - 4,0);
             clrtoeol();
             refresh();
             if(size == TRUE)
