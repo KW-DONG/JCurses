@@ -1,21 +1,25 @@
 #include "jmenu.hpp"
 #include <stdlib.h>
-//#include <cstring>
+#include <cstring>
 
 void JMenu::Create_Menu(void)
 {    
     mItems = (ITEM**)new ITEM* [mItemNum];
-    
+    int32_t length = 10;
+    int32_t lengthMax = 10;
+
     for(int i = 0; i < mItemNum; ++i)
     {
+        length = strlen(mItemList[i]->Get_Title());
         mItems[i] = new_item(mItemList[i]->Get_Title()," ");
+        if (length>lengthMax)   lengthMax = length;
     }
 
     mMenu = new_menu((ITEM**)mItems);
 
-    int32_t menuStartX = Get_W()/3;
+    int32_t menuStartX = (Get_W()-lengthMax)/2;
 
-    int32_t menuWinWidth = Get_W() - menuStartX - 3;
+    int32_t menuWinWidth = lengthMax;
 
     mMenuWindow = derwin(Get_Base_Window(),Get_H()-3,menuWinWidth,2,menuStartX);
 
@@ -126,6 +130,7 @@ void JBaseMenu::Run_App(JApp* app)
     keypad(mCurrentMenu->Get_Base_Window(),FALSE);
     mCurrentMenu->Close_Menu();
     app->Display();
+
     Set_Refresh_Bit();
     keypad(mCurrentMenu->Get_Base_Window(),TRUE);
 }

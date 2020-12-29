@@ -18,9 +18,9 @@ int main()
     data1 = "1000";
     data2 = "2000";
 
-    JBaseMenu baseMenu(10,5,20,100,"main");
-    JMenu menu1(10,5,20,100,"menu1");
-    JForm form1(10,5,20,100,"form1");
+    JBaseMenu baseMenu(10,5,20,40,"main");
+    JMenu menu1(10,5,20,40,"menu1");
+    JForm form1(10,5,20,50,"form1");
 
     JItem<JMenu> item1("item1");
     JItem<JMenu> item2("item2");

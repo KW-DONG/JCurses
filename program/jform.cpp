@@ -1,23 +1,20 @@
 #include "jform.hpp"
+#include <cstring>
 
 void JForm::Create_Form(void)
 {
     char* value;
 
+    int32_t length = 10;
+    int16_t lengthMax = length;
+
     mFields = new FIELD* [mFieldNum+1];
-
-    mFormWindow = derwin(Get_Base_Window(),Get_H()-4,(Get_W()-2)/2-2,2,(Get_W()/2));
-
-    mLabelWindow = derwin(Get_Base_Window(),Get_H()-4,(Get_W()-2)/2-2,2,1);
-
-    box(mFormWindow,0,0);
-    box(mLabelWindow,0,0);
 
     keypad(Get_Base_Window(),TRUE);
 
     for (int i = 0; i < mFieldNum; ++i)
     {
-        mFields[i] = new_field(1,10,1+i,Get_X()+10,0,0);
+        mFields[i] = new_field(1,10,1+i,1,0,0);
         
         field_opts_off(mFields[i], O_AUTOSKIP);
 
@@ -25,13 +22,22 @@ void JForm::Create_Form(void)
 
         set_field_back(mFields[i],A_UNDERLINE);
 
-        set_field_type(mFields[i],TYPE_NUMERIC);                /*numerical inputs only*/
+        //set_field_type(mFields[i],TYPE_NUMERIC);                /*numerical inputs only*/
 
         mFieldList[i]->Pull(value);
 
-        set_field_buffer(mFields[i],0,"12345");
+        length = strlen(mFieldList[i]->Get_Title());
 
-        mvwprintw(mLabelWindow,1+i,5,mFieldList[i]->Get_Title());
+        if (length > lengthMax) lengthMax = length;   
+    }
+
+    mFormWindow = derwin(Get_Base_Window(),Get_H()-4,Get_W()/2-4,2,(Get_W()/2));
+
+    mLabelWindow = derwin(Get_Base_Window(),Get_H()-4,lengthMax,2,Get_W()/2-lengthMax-1);
+
+    for (int i = 0; i < mFieldNum; ++i)
+    {
+        mvwprintw(mLabelWindow,1+i,1,mFieldList[i]->Get_Title());
     }
 
     mFields[mFieldNum] = NULL;
@@ -64,8 +70,10 @@ void JForm::Close_Form(void)
     mFields = NULL;
 
     free_form(mForm);
-    
+    delwin(mFormWindow);
+    delwin(Get_Base_Window());
     endwin();
+    refresh();
 }
 
 void JForm::Display(void)
@@ -73,6 +81,7 @@ void JForm::Display(void)
     Show();
     Create_Form();
     wrefresh(Get_Base_Window());
+    Update();
     int c = 0;
     while (c != KEY_LEFT)
     {
