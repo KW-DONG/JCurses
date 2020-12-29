@@ -6,20 +6,18 @@ void JForm::Create_Form(void)
 
     mFields = new FIELD* [mFieldNum+1];
 
-    mFormWindow = derwin(Get_Base_Window(),Get_H()-4,(Get_W()-2)/2-1,2,(Get_W()/2));
+    mFormWindow = derwin(Get_Base_Window(),Get_H()-4,(Get_W()-2)/2-2,2,(Get_W()/2));
 
-    mLabelWindow = derwin(Get_Base_Window(),Get_H()-4,(Get_W()-2)/2-1,2,1);
+    mLabelWindow = derwin(Get_Base_Window(),Get_H()-4,(Get_W()-2)/2-2,2,1);
 
-    //box(mFormWindow,0,0);
-
-    //box(mLabelWindow,0,0);
+    box(mFormWindow,0,0);
+    box(mLabelWindow,0,0);
 
     keypad(Get_Base_Window(),TRUE);
 
-
     for (int i = 0; i < mFieldNum; ++i)
     {
-        mFields[i] = new_field(1,10,Get_Y()+1+i,Get_X()+10,0,0);
+        mFields[i] = new_field(1,10,1+i,Get_X()+10,0,0);
         
         field_opts_off(mFields[i], O_AUTOSKIP);
 
@@ -27,13 +25,13 @@ void JForm::Create_Form(void)
 
         set_field_back(mFields[i],A_UNDERLINE);
 
-        //set_field_type(mFields[i],TYPE_NUMERIC);                /*numerical inputs only*/
+        set_field_type(mFields[i],TYPE_NUMERIC);                /*numerical inputs only*/
 
         mFieldList[i]->Pull(value);
 
         set_field_buffer(mFields[i],0,"12345");
 
-        //mvwprintw(mLabelWindow,1+i,5,mFieldList[i]->Get_Title());
+        mvwprintw(mLabelWindow,1+i,5,mFieldList[i]->Get_Title());
     }
 
     mFields[mFieldNum] = NULL;
@@ -42,13 +40,9 @@ void JForm::Create_Form(void)
 
     set_form_win(mForm, Get_Base_Window());
 
-    set_form_sub(mForm, mLabelWindow);
+    set_form_sub(mForm, mFormWindow);
 
     post_form(mForm);
-
-    //wrefresh(Get_Base_Window());
-
-    wrefresh(mFormWindow);
 
 }
 
