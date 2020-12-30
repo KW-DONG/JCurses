@@ -181,6 +181,7 @@ public:
 protected:
     void Switch_Forward(JMenu* newMenu)
     {
+        clear();
         mCurrentMenu->Close_Menu();
         newMenu->Set_Last_Menu(mCurrentMenu);
         mCurrentMenu = newMenu;
@@ -189,6 +190,7 @@ protected:
 
     void Switch_Backward(void)
     {
+        clear();
         mCurrentMenu->Close_Menu();
         mCurrentMenu = mCurrentMenu->Get_Last_Menu();
         Set_Refresh_Bit();

@@ -15,12 +15,12 @@ char* data2 = NULL;
 
 int main()
 {
-    data1 = "1000";
-    data2 = "2000";
+    data1 = "1";
+    data2 = "2";
 
-    JBaseMenu baseMenu(10,5,20,40,"main");
-    JMenu menu1(10,5,20,40,"menu1");
-    JForm form1(10,5,20,50,"form1");
+    JBaseMenu baseMenu(30,5,20,40,"main");
+    JMenu menu1(30,5,20,50,"menu1");
+    JForm form1(30,5,20,60,"form1");
 
     JItem<JMenu> item1("item1");
     JItem<JMenu> item2("item2");
@@ -60,17 +60,23 @@ int32_t Field1_Push(char* text)
 
 int32_t Field1_Pull(char* text)
 {
-    text = data1;
+    //text = data1;
+    text = "12345";
+    JPrint(text);
+    refresh();
 }
 
 int32_t Field2_Push(char* text)
-{
-    text = data2;
+{    
+    data2 = text;
 }
 
 int32_t Field2_Pull(char* text)
 {
-    data2 = text;
+    //text = data2;
+    text = "54321";
+    JPrint(text);
+    refresh();
 }
 
 int32_t Item2_Event(JMenu* ptr)

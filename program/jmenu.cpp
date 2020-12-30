@@ -130,7 +130,7 @@ void JBaseMenu::Run_App(JApp* app)
     keypad(mCurrentMenu->Get_Base_Window(),FALSE);
     mCurrentMenu->Close_Menu();
     app->Display();
-
+    clear();
     Set_Refresh_Bit();
     keypad(mCurrentMenu->Get_Base_Window(),TRUE);
 }

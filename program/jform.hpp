@@ -3,6 +3,7 @@
 #include "jmenu.hpp"
 #include "jwindow.hpp"
 #include <form.h>
+#include <iostream>
 
 typedef int32_t (*Field_Pull_Callback)(char*);
 
@@ -28,6 +29,7 @@ public:
 
     const char* Pull(char* var)
     {
+        char* a;
         if (pullMessageList!=NULL)
         {
             return Get_Feedback(mPull(var),pullMessageList);

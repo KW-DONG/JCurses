@@ -1,10 +1,9 @@
 #include "jform.hpp"
 #include <cstring>
+#include <string>
 
 void JForm::Create_Form(void)
 {
-    char* value;
-
     int32_t length = 10;
     int16_t lengthMax = length;
 
@@ -24,8 +23,6 @@ void JForm::Create_Form(void)
 
         //set_field_type(mFields[i],TYPE_NUMERIC);                /*numerical inputs only*/
 
-        mFieldList[i]->Pull(value);
-
         length = strlen(mFieldList[i]->Get_Title());
 
         if (length > lengthMax) lengthMax = length;   
@@ -35,9 +32,16 @@ void JForm::Create_Form(void)
 
     mLabelWindow = derwin(Get_Base_Window(),Get_H()-4,lengthMax,2,Get_W()/2-lengthMax-1);
 
+    char p[10];
+    std::string q;
     for (int i = 0; i < mFieldNum; ++i)
     {
         mvwprintw(mLabelWindow,1+i,1,mFieldList[i]->Get_Title());
+        mFieldList[i]->Pull(p);
+        q.assign(p);
+        set_field_buffer(mFields[i],0,q.c_str());
+        JPrint(p);
+        refresh();
     }
 
     mFields[mFieldNum] = NULL;
@@ -57,23 +61,17 @@ void JForm::Close_Form(void)
     selected = 0;
 
     keypad(Get_Base_Window(),FALSE);
-
-    keypad(mFormWindow,TRUE);
-
     unpost_form(mForm);
 
     for (int32_t i = 0; i < mFieldNum; i++)
     free_field(mFields[i]);
 
     delete[] mFields;
-
     mFields = NULL;
 
     free_form(mForm);
     delwin(mFormWindow);
     delwin(Get_Base_Window());
-    endwin();
-    refresh();
 }
 
 void JForm::Display(void)
@@ -81,7 +79,7 @@ void JForm::Display(void)
     Show();
     Create_Form();
     wrefresh(Get_Base_Window());
-    Update();
+    
     int c = 0;
     while (c != KEY_LEFT)
     {
@@ -119,15 +117,12 @@ void JForm::Display(void)
 void JForm::Update(void)
 {
     int i;
-
     char* p;
 
     for (i = 0; i < mFieldNum; i++)
     {
         mFieldList[i]->Push(field_buffer(mFields[i],0));
-
         mFieldList[i]->Pull(p);
-
         set_field_buffer(mFields[i],0,p);
     }
 }
