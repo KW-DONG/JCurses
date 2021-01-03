@@ -1,6 +1,6 @@
 #include "jform.hpp"
 #include <cstring>
-#include <string>
+
 
 void JForm::Create_Form(void)
 {
@@ -21,7 +21,7 @@ void JForm::Create_Form(void)
 
         set_field_back(mFields[i],A_UNDERLINE);
 
-        //set_field_type(mFields[i],TYPE_NUMERIC);                /*numerical inputs only*/
+        set_field_type(mFields[i],TYPE_NUMERIC);                /*numerical inputs only*/
 
         length = strlen(mFieldList[i]->Get_Title());
 
@@ -32,15 +32,15 @@ void JForm::Create_Form(void)
 
     mLabelWindow = derwin(Get_Base_Window(),Get_H()-4,lengthMax,2,Get_W()/2-lengthMax-1);
 
-    char p[10];
     std::string q;
+
     for (int i = 0; i < mFieldNum; ++i)
     {
         mvwprintw(mLabelWindow,1+i,1,mFieldList[i]->Get_Title());
-        mFieldList[i]->Pull(p);
-        q.assign(p);
+        mFieldList[i]->Pull(q);
+
         set_field_buffer(mFields[i],0,q.c_str());
-        JPrint(p);
+        JPrint(q.c_str());
         refresh();
     }
 
@@ -79,7 +79,7 @@ void JForm::Display(void)
     Show();
     Create_Form();
     wrefresh(Get_Base_Window());
-    
+    form_driver(mForm,REQ_END_FIELD);
     int c = 0;
     while (c != KEY_LEFT)
     {
@@ -90,10 +90,12 @@ void JForm::Display(void)
             case KEY_DOWN:
                 form_driver(mForm,REQ_NEXT_FIELD);
                 form_driver(mForm,REQ_END_FIELD);
+                Base_Clear();
                 break;
             case KEY_UP:
                 form_driver(mForm,REQ_PREV_FIELD);
                 form_driver(mForm,REQ_END_FIELD);
+                Base_Clear();
                 break;
             case KEY_NPAGE:
                 form_driver(mForm, REQ_SCR_FPAGE);
@@ -104,27 +106,33 @@ void JForm::Display(void)
             case KEY_BACKSPACE:
                 form_driver(mForm,REQ_DEL_PREV);
                 break;
+            case 10://key_enter
+                form_driver(mForm,REQ_END_FIELD);
+                Update();
+                Base_Print("Saved");
+                refresh();
+                break;
             default:
                 form_driver(mForm,c);
                 break;
         }
         wrefresh(mFormWindow);
     }
-    Update();
     Close_Form();
 }
 
 void JForm::Update(void)
 {
-    int i;
-    char* p;
+    std::string data;
 
-    for (i = 0; i < mFieldNum; i++)
+    for (int i = 0; i < mFieldNum; i++)
     {
-        mFieldList[i]->Push(field_buffer(mFields[i],0));
-        mFieldList[i]->Pull(p);
-        set_field_buffer(mFields[i],0,p);
+        data.assign(field_buffer(mFields[i],0));
+        mFieldList[i]->Push(data);
+        mFieldList[i]->Pull(data);
+        set_field_buffer(mFields[i],0,data.c_str());
     }
 }
+
 
 

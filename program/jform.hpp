@@ -4,10 +4,11 @@
 #include "jwindow.hpp"
 #include <form.h>
 #include <iostream>
+#include <string>
 
-typedef int32_t (*Field_Pull_Callback)(char*);
+typedef int32_t (*Field_Pull_Callback)(std::string&);
 
-typedef int32_t (*Field_Push_Callback)(char*);
+typedef int32_t (*Field_Push_Callback)(std::string&);
 
 class JField : public JWidget
 {
@@ -27,29 +28,28 @@ public:
         mPull = pullCallback;
     }
 
-    const char* Pull(char* var)
+    const char* Pull(std::string& p)
     {
-        char* a;
         if (pullMessageList!=NULL)
         {
-            return Get_Feedback(mPull(var),pullMessageList);
+            return Get_Feedback(mPull(p),pullMessageList);
         }
         else
         {
-            mPull(var);
+            mPull(p);
             return "Pull";
         }
     }
 
-    const char* Push(char* var)
+    const char* Push(std::string& p)
     {
         if (pushMessageList!=NULL)
         {
-            return Get_Feedback(mPush(var),pushMessageList);
+            return Get_Feedback(mPush(p),pushMessageList);
         }
         else
         {
-            mPush(var);
+            mPush(p);
             return "Push";
         }
     }
@@ -66,9 +66,9 @@ public:
 
 private:
 
-    int32_t (*mPush)(char*);
+    int32_t (*mPush)(std::string&);
 
-    int32_t (*mPull)(char*);
+    int32_t (*mPull)(std::string&);
 
     event_feedback_t* pushMessageList;
 

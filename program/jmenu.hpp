@@ -13,7 +13,7 @@ class JItem : public JWidget
 public:
     typedef int32_t (*Item_Sel_Callback)(T* menuPtr);
 
-    JItem(const char*title):JWidget(title),itemEvent(NULL),mMessageList(NULL),mNextMenu(NULL){}
+    JItem(const char*title):JWidget(title),itemEvent(NULL),mMessageList(NULL),mNextMenu(NULL),mNextApp(NULL){}
 
     ~JItem(){}
 

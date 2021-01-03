@@ -1,4 +1,5 @@
 #include "jform.hpp"
+#include "snake.hpp"
 #include <string>
 
 int32_t Field1_Push(std::string&);
@@ -18,11 +19,13 @@ int main()
     JBaseMenu baseMenu(30,2,20,40,"main");
     JMenu menu1(30,2,20,40,"menu1");
     JForm form1(30,2,20,40,"form1");
+    JSnake snake(30,2,20,40,"snake");
 
-    JItem<JMenu> item1("item1");
-    JItem<JMenu> item2("item2");
-    JItem<JMenu> item11("item11");
-    JItem<JMenu> item12("item12");
+    JItem<JMenu> item1("form menu");
+    JItem<JMenu> item2("print field2");
+    JItem<JMenu> item3("snake");
+    JItem<JMenu> item11("show form");
+    JItem<JMenu> item12("print field1");
     JField field1("field1:");
     JField field2("field2:");
 
@@ -30,12 +33,14 @@ int main()
     item2.Set_Event(Item2_Event,NULL);
     item11.Set_Next_App(&form1);
     item12.Set_Event(Item12_Event,NULL);
+    item3.Set_Next_App(&snake);
+
     field1.Set_Pull(Field1_Pull,NULL);
     field1.Set_Push(Field1_Push,NULL);
     field2.Set_Pull(Field2_Pull,NULL);
     field2.Set_Push(Field2_Push,NULL);
 
-    JItem<JMenu>* baseMenuList[] = {&item1,&item2};
+    JItem<JMenu>* baseMenuList[] = {&item1,&item2,&item3};
     JItem<JMenu>* menu1List[] = {&item11,&item12};
     JField* form1List[] = {&field1,&field2};
     
