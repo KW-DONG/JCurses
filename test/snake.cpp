@@ -7,7 +7,7 @@
 #define H 24
 
 int m[W*H],q[W*H],p = H/2*W+(W/2),a,h=0,t=0,d=1,i;
-int Snake_Loop(void)
+void Snake_Loop(void)
 {
     initscr();
     noecho();

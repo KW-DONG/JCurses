@@ -26,6 +26,7 @@ int main()
     JItem<JMenu> item3("snake");
     JItem<JMenu> item11("show form");
     JItem<JMenu> item12("print field1");
+    JItem<JMenu> item13("nothing");
     JField field1("field1:");
     JField field2("field2:");
 
@@ -40,7 +41,7 @@ int main()
     field2.Set_Pull(Field2_Pull,NULL);
     field2.Set_Push(Field2_Push,NULL);
 
-    JItem<JMenu>* baseMenuList[] = {&item1,&item2,&item3};
+    JItem<JMenu>* baseMenuList[] = {&item1,&item3};
     JItem<JMenu>* menu1List[] = {&item11,&item12};
     JField* form1List[] = {&field1,&field2};
     
