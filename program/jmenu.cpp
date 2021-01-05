@@ -20,8 +20,6 @@ void JMenu::Create_Menu(void)
 
         mMenu = new_menu((ITEM**)mItems);
 
-        
-
         initFlag = 0;
     }
     //int32_t menuStartX = (Get_W()-lengthMax)/2;
