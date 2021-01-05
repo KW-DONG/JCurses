@@ -92,7 +92,7 @@ class JMenu : public JWindow
 public:
 
     JMenu(int32_t startX, int32_t startY, uint32_t height, uint32_t width, const char* title):
-    JWindow(startX,startY,height,width,title),mItemList(NULL),mItemNum(0),initFlag(1){}
+    JWindow(startX,startY,height,width,title),mItemList(NULL),mItemNum(0),initFlag(true),mLengthMax(10){}
 
     ~JMenu(){}
 
@@ -141,21 +141,24 @@ public:
         return mItemNum;
     }
 
-    uint8_t initFlag;
-
 protected:
 
-    WINDOW*     mMenuWindow;        /*the window that associate the menu*/
+    WINDOW*         mMenuWindow;        /*the window that associate the menu*/
 
-    MENU*       mMenu;              /*the menu list*/
+    MENU*           mMenu;              /*the menu list*/
 
-    ITEM**      mItems;             /*item list used to allocate memory*/
+    ITEM**          mItems;             /*item list used to allocate memory*/
     
-    JItem<JMenu>**      mItemList;
+    JItem<JMenu>**  mItemList;
     
-    int32_t    mItemNum;
+    int32_t         mItemNum;
 
-    JMenu* mLastMenu;
+    JMenu*          mLastMenu;
+
+    bool            initFlag;
+
+    int32_t         mLengthMax;
+
 };
 
 class JBaseMenu : public JApp

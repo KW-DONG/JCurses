@@ -78,7 +78,10 @@ typedef struct
 class JWidget
 {
 public:
-    JWidget(const char* title):mTitle(title),mWidth(sizeof(title)){};
+    JWidget(const char* title):mTitle(title),mWidth(0)
+    {
+        for (;title[mWidth]!= '\0';mWidth++);
+    }
     ~JWidget(){}
 
     const char* Get_Title(void)
@@ -95,7 +98,7 @@ protected:
 
 private:
     const char* mTitle;
-    const int32_t mWidth;
+    int32_t mWidth;
 };
 
 class JApp : public JWindow

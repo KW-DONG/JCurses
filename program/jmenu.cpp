@@ -1,32 +1,27 @@
 #include "jmenu.hpp"
 #include <stdlib.h>
-#include <cstring>
 
 void JMenu::Create_Menu(void)
 {    
-    if (initFlag == 1)
+    if (initFlag == true)
     {
         mItems = (ITEM**)new ITEM* [mItemNum+1];
     
-        int32_t length = 10;
-        int32_t lengthMax = 10;
+        int32_t length;
 
         for(int i = 0; i < mItemNum; ++i)
         {
             length = mItemList[i]->Get_Width();
             mItems[i] = new_item(mItemList[i]->Get_Title()," ");
-            if (length>lengthMax)   lengthMax = length+2;
+            if (length>mLengthMax)   mLengthMax = length+2;
         }
 
         mMenu = new_menu((ITEM**)mItems);
 
-        initFlag = 0;
+        initFlag = false;
     }
-    //int32_t menuStartX = (Get_W()-lengthMax)/2;
 
-    //int32_t menuWinWidth = lengthMax;
-
-    mMenuWindow = derwin(Get_Base_Window(),Get_H()-3,20,2,(Get_W()-20)/2);
+    mMenuWindow = derwin(Get_Base_Window(),Get_H()-3,mLengthMax,2,(Get_W()-mLengthMax)/2);
 
     set_menu_win(mMenu, Get_Base_Window());
 
