@@ -1,6 +1,8 @@
 #ifndef __JMENU_HPP
 #define __JMENU_HPP
 #include <menu.h>
+#include <array>
+#include <vector>
 #include "jwindow.hpp"
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
@@ -90,7 +92,7 @@ class JMenu : public JWindow
 public:
 
     JMenu(int32_t startX, int32_t startY, uint32_t height, uint32_t width, const char* title):
-    JWindow(startX,startY,height,width,title),mItemList(NULL),mItemNum(0){}
+    JWindow(startX,startY,height,width,title),mItemList(NULL),mItemNum(0),initFlag(1){}
 
     ~JMenu(){}
 
@@ -139,6 +141,8 @@ public:
         return mItemNum;
     }
 
+    uint8_t initFlag;
+
 protected:
 
     WINDOW*     mMenuWindow;        /*the window that associate the menu*/
@@ -146,13 +150,12 @@ protected:
     MENU*       mMenu;              /*the menu list*/
 
     ITEM**      mItems;             /*item list used to allocate memory*/
-
+    
     JItem<JMenu>**      mItemList;
     
     int32_t    mItemNum;
 
     JMenu* mLastMenu;
-
 };
 
 class JBaseMenu : public JApp
@@ -182,7 +185,7 @@ protected:
     void Switch_Forward(JMenu* newMenu)
     {
         clear();
-        mCurrentMenu->Close_Menu();
+        unpost_menu(mCurrentMenu->Get_Menu_List());
         newMenu->Set_Last_Menu(mCurrentMenu);
         mCurrentMenu = newMenu;
         Set_Refresh_Bit();
@@ -191,7 +194,7 @@ protected:
     void Switch_Backward(void)
     {
         clear();
-        mCurrentMenu->Close_Menu();
+        unpost_menu(mCurrentMenu->Get_Menu_List());
         mCurrentMenu = mCurrentMenu->Get_Last_Menu();
         Set_Refresh_Bit();
     }
@@ -208,6 +211,8 @@ private:
     JMenu* mCurrentMenu;
 
     JMenu* mThisMenu;
+
+
 
 };
 

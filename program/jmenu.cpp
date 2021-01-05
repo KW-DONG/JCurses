@@ -4,24 +4,31 @@
 
 void JMenu::Create_Menu(void)
 {    
-    mItems = (ITEM**)new ITEM* [mItemNum];
-    int32_t length = 10;
-    int32_t lengthMax = 10;
-
-    for(int i = 0; i < mItemNum; ++i)
+    if (initFlag == 1)
     {
-        length = strlen(mItemList[i]->Get_Title());
-        mItems[i] = new_item(mItemList[i]->Get_Title()," ");
-        if (length>lengthMax)   lengthMax = length;
+        mItems = (ITEM**)new ITEM* [mItemNum+1];
+    
+        int32_t length = 10;
+        int32_t lengthMax = 10;
+
+        for(int i = 0; i < mItemNum; ++i)
+        {
+            length = mItemList[i]->Get_Width();
+            mItems[i] = new_item(mItemList[i]->Get_Title()," ");
+            if (length>lengthMax)   lengthMax = length+2;
+        }
+
+        mMenu = new_menu((ITEM**)mItems);
+
+        
+
+        initFlag = 0;
     }
+    //int32_t menuStartX = (Get_W()-lengthMax)/2;
 
-    mMenu = new_menu((ITEM**)mItems);
+    //int32_t menuWinWidth = lengthMax;
 
-    int32_t menuStartX = (Get_W()-lengthMax)/2;
-
-    int32_t menuWinWidth = lengthMax;
-
-    mMenuWindow = derwin(Get_Base_Window(),Get_H()-3,menuWinWidth,2,menuStartX);
+    mMenuWindow = derwin(Get_Base_Window(),Get_H()-3,20,2,(Get_W()-20)/2);
 
     set_menu_win(mMenu, Get_Base_Window());
 
@@ -39,11 +46,14 @@ void JMenu::Close_Menu(void)
 {
     unpost_menu(mMenu);
     free_menu(mMenu);
+    mMenu = NULL;
     for (int32_t i = 0; i < mItemNum; ++i)
     {
         free_item(mItems[i]);
     }
     delete[] mItems;
+    free_menu(mMenu);
+    //free(mItems);
     mItems = NULL;
 
     delwin(mMenuWindow);
@@ -110,6 +120,7 @@ void JBaseMenu::Display(void)
                     {
                         Run_App(nextApp);
                     }
+                    
                 }
                 refresh(); 
             }

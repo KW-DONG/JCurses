@@ -1,4 +1,5 @@
 #include "jmenu.hpp"
+#include <array>
 
 int32_t Item11_Event(JMenu* ptr)
 {
@@ -36,6 +37,10 @@ int main()
 
     JItem<JMenu> item2("item2");
 
+    JItem<JMenu> item3("item3");
+
+    JItem<JMenu> item4("item4");
+
     JItem<JMenu> item11("item11");
 
     JItem<JMenu> item12("item12");
@@ -54,13 +59,17 @@ int main()
     item21.Set_Event(Item21_Event,NULL);
     item22.Set_Event(Item22_Event,NULL);
 
-    JItem<JMenu>* baseMenuList[] = {&item1,&item2};
+    std::array<JItem<JMenu>*,3> baseList = {&item1,&item2,&item3};
+
+    JItem<JMenu>* baseMenuList[] = {&item1,&item2,&item3};
 
     JItem<JMenu>* menu1List[] = {&item11,&item12};
 
     JItem<JMenu>* menu2List[] = {&item21,&item22};
 
-    baseMenu.Set_Items(baseMenuList,ARRAY_SIZE(baseMenuList));
+    //baseMenu.Set_Items(baseMenuList,ARRAY_SIZE(baseMenuList));
+
+    baseMenu.Set_Items(baseList.data(),baseList.size());
 
     menu1.Set_Items(menu1List,ARRAY_SIZE(menu1List));
 

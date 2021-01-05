@@ -32,10 +32,11 @@
                 "-L", "/usr/local/lib",
                 "-L", "/usr/lib",
                 //"-l", "gxiapi",
-                "-l", "curses",
+                
                 "-l", "menu",
                 "-l", "panel",
-                "-l", "form"
+                "-l", "form",
+                "-l", "curses",
             ],
             "options": {
                 "cwd": "/usr/bin"
